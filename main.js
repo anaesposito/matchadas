@@ -30,7 +30,7 @@ const crearGatitos = () => {
 //--------------------------------------------------- esto es sirve
 const crearArrayGatitos = () => {
   let array = [];
-  //   let contador = 0;
+
   for (let i = 0; i <= 5; i++) {
     let img = document.createElement("img");
     img.src = `img/Gatito-${i}.png`;
@@ -44,15 +44,15 @@ const crearArrayGatitos = () => {
 
 let items = crearArrayGatitos();
 
-let listaDeFrutas = [];
+let listaDeGatitos = [];
 
-let frutas = "";
+let gatitos = "";
 
 const obtenerNumeroAlAzar = (items) => {
   let largo = items.length;
   return Math.floor(Math.random() * largo);
 };
-const obtenerFrutaAlAzar = (items) => {
+const obtenerGatitoAlAzar = (items) => {
   return items[obtenerNumeroAlAzar(items)];
 };
 
@@ -61,21 +61,25 @@ const crearGrilla = (ancho, alto) => {
   grilla.style.width = `${anchoDeGrilla}px`;
 
   for (let i = 0; i < ancho; i++) {
-    listaDeFrutas[i] = [];
+    listaDeGatitos[i] = [];
     for (let j = 0; j < alto; j++) {
-      listaDeFrutas[i][j] = obtenerFrutaAlAzar(items);
+      listaDeGatitos[i][j] = obtenerGatitoAlAzar(items);
     }
   }
 
   grilla.innerHTML = "";
-  for (let i = 0; i < listaDeFrutas.length; i++) {
-    for (let j = 0; j < listaDeFrutas[i].length; j++) {
-      frutas = obtenerFrutaAlAzar(items);
-      listaDeFrutas[i][j] = frutas;
+
+  for (let i = 0; i < listaDeGatitos.length; i++) {
+    for (let j = 0; j < listaDeGatitos[i].length; j++) {
+      gatitos = obtenerGatitoAlAzar(items);
+      listaDeGatitos[i][j] = gatitos;
 
       grilla.innerHTML += `<div class="contenedor-gatito" data-x="${i}" data-y="${j}"></div>`;
-      const contenedor = document.querySelector(".contenedor-gatito");
-      contenedor.appendChild(frutas);
+
+      let contenedores = document.querySelectorAll(".contenedor-gatito");
+      for (contenedor of contenedores) {
+        contenedor.appendChild(gatitos);
+      }
     }
   }
 
@@ -126,11 +130,11 @@ reiniciarJuego.onclick = () => {
 };
 
 buscarMatches.onclick = () => {
-  for (let i = 0; i < listaDeFrutas.length; i++) {
-    for (let j = 0; j < listaDeFrutas[i].length; j++) {
+  for (let i = 0; i < listaDeGatitos.length; i++) {
+    for (let j = 0; j < listaDeGatitos[i].length; j++) {
       if (
-        listaDeFrutas[i][j] === listaDeFrutas[i][j + 1] &&
-        listaDeFrutas[i][j + 1] === listaDeFrutas[i][j + 2]
+        listaDeGatitos[i][j] === listaDeGatitos[i][j + 1] &&
+        listaDeGatitos[i][j + 1] === listaDeGatitos[i][j + 2]
       ) {
         const div = document.querySelector(`div[data-x="${i}"][data-y="${j}"]`);
         div.style.backgroundColor = "yellow";
@@ -145,13 +149,13 @@ buscarMatches.onclick = () => {
       }
     }
   }
-  for (let i = 0; i < listaDeFrutas.length; i++) {
-    for (let j = 0; j < listaDeFrutas[i].length; j++) {
+  for (let i = 0; i < listaDeGatitos.length; i++) {
+    for (let j = 0; j < listaDeGatitos[i].length; j++) {
       if (
-        listaDeFrutas[i + 1] &&
-        listaDeFrutas[i + 2] &&
-        listaDeFrutas[i][j] === listaDeFrutas[i + 1][j] &&
-        listaDeFrutas[i][j] === listaDeFrutas[i + 2][j]
+        listaDeGatitos[i + 1] &&
+        listaDeGatitos[i + 2] &&
+        listaDeGatitos[i][j] === listaDeGatitos[i + 1][j] &&
+        listaDeGatitos[i][j] === listaDeGatitos[i + 2][j]
       ) {
         const uno = document.querySelector(`div[data-x="${i}"][data-y="${j}"]`);
         uno.style.backgroundColor = "red";
