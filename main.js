@@ -25,7 +25,6 @@ const crearGatitos = () => {
   }
 };
 
-// console.log(crearGatitos());
 // ----------------------------------------------------------------------------
 //--------------------------------------------------- esto es sirve
 
@@ -34,8 +33,6 @@ const sonAdyacentes = (cuadrado1, cuadrado2) => {
   let nroXCuadradoDos = cuadrado2.dataset.x;
   nroXCuadradoUno = Number(nroXCuadradoUno);
   nroXCuadradoDos = Number(nroXCuadradoDos);
-
-  //   console.log(nroXCuadradoUno, nroXCuadradoDos);
 
   let nroYCuadradoUno = cuadrado1.dataset.y;
   let nroYCuadradoDos = cuadrado2.dataset.y;
@@ -47,8 +44,6 @@ const sonAdyacentes = (cuadrado1, cuadrado2) => {
       nroYCuadradoUno == nroYCuadradoDos + 1 ||
       nroYCuadradoUno == nroYCuadradoDos - 1
     ) {
-      // nroYCuadradoUno.style.backgroundColor = "black";
-      // nroYCuadradoDos.style.backgroundColor = "purple";
       console.log("Esto es true", nroYCuadradoUno, nroYCuadradoDos);
       // return true;
     }
@@ -58,9 +53,6 @@ const sonAdyacentes = (cuadrado1, cuadrado2) => {
       nroXCuadradoUno == nroXCuadradoDos + 1 ||
       nroXCuadradoUno == nroXCuadradoDos - 1
     ) {
-      // nroXCuadradoUno.style.backgroundColor = "blue";
-      // nroXCuadradoDos.style.backgroundColor = "green";
-
       console.log("Esto es true", nroYCuadradoUno, nroXCuadradoUno);
       // return true;
     }
