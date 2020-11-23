@@ -28,6 +28,48 @@ const crearGatitos = () => {
 // console.log(crearGatitos());
 // ----------------------------------------------------------------------------
 //--------------------------------------------------- esto es sirve
+
+const sonAdyacentes = (cuadrado1, cuadrado2) => {
+  let nroXCuadradoUno = cuadrado1.dataset.x;
+  let nroXCuadradoDos = cuadrado2.dataset.x;
+  nroXCuadradoUno = Number(nroXCuadradoUno);
+  nroXCuadradoDos = Number(nroXCuadradoDos);
+
+  //   console.log(nroXCuadradoUno, nroXCuadradoDos);
+
+  let nroYCuadradoUno = cuadrado1.dataset.y;
+  let nroYCuadradoDos = cuadrado2.dataset.y;
+  nroYCuadradoUno = Number(nroYCuadradoUno);
+  nroYCuadradoDos = Number(nroYCuadradoDos);
+
+  if (nroXCuadradoUno == nroXCuadradoDos) {
+    if (
+      nroYCuadradoUno == nroYCuadradoDos + 1 ||
+      nroYCuadradoUno == nroYCuadradoDos - 1
+    ) {
+      // nroYCuadradoUno.style.backgroundColor = "black";
+      // nroYCuadradoDos.style.backgroundColor = "purple";
+      console.log("Esto es true", nroYCuadradoUno, nroYCuadradoDos);
+      // return true;
+    }
+  }
+  if (nroYCuadradoUno == nroYCuadradoDos) {
+    if (
+      nroXCuadradoUno == nroXCuadradoDos + 1 ||
+      nroXCuadradoUno == nroXCuadradoDos - 1
+    ) {
+      // nroXCuadradoUno.style.backgroundColor = "blue";
+      // nroXCuadradoDos.style.backgroundColor = "green";
+
+      console.log("Esto es true", nroYCuadradoUno, nroXCuadradoUno);
+      // return true;
+    }
+  }
+  console.log("Esto es false");
+  // return false;
+};
+///////////////////////////////////////////////////
+
 const crearArrayGatitos = () => {
   let array = [];
 
@@ -42,6 +84,7 @@ const crearArrayGatitos = () => {
 //---------------------------------------------------------------------------------------
 // console.log(crearArrayGatitos());
 
+//-----------------------------------------
 let items = crearArrayGatitos();
 
 let listaDeGatitos = [];
@@ -57,7 +100,7 @@ const obtenerGatitoAlAzar = (items) => {
 };
 
 const crearGrilla = (ancho, alto) => {
-  const anchoDeGrilla = 50 * ancho;
+  const anchoDeGrilla = 80 * ancho;
   grilla.style.width = `${anchoDeGrilla}px`;
 
   for (let i = 0; i < ancho; i++) {
@@ -77,6 +120,7 @@ const crearGrilla = (ancho, alto) => {
       grilla.innerHTML += `<div class="contenedor-gatito" data-x="${i}" data-y="${j}"></div>`;
 
       let contenedores = document.querySelectorAll(".contenedor-gatito");
+
       for (contenedor of contenedores) {
         contenedor.appendChild(gatitos);
       }
@@ -141,6 +185,7 @@ buscarMatches.onclick = () => {
         const divDos = document.querySelector(
           `div[data-x="${i}"][data-y="${j + 1}"]`
         );
+        sonAdyacentes(div, divDos);
         divDos.style.backgroundColor = "yellow";
         const divTres = document.querySelector(
           `div[data-x="${i}"][data-y="${j + 2}"]`
@@ -163,6 +208,7 @@ buscarMatches.onclick = () => {
           `div[data-x="${i + 1}"][data-y="${j}"]`
         );
         dos.style.backgroundColor = "red";
+        sonAdyacentes(uno, dos);
         const tres = document.querySelector(
           `div[data-x="${i + 2}"][data-y="${j}"]`
         );
