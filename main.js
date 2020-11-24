@@ -22,8 +22,8 @@ const sonAdyacentes = (cuadrado1, cuadrado2) => {
       nroYCuadradoUno == nroYCuadradoDos + 1 ||
       nroYCuadradoUno == nroYCuadradoDos - 1
     ) {
-      console.log("Esto es true", nroYCuadradoUno, nroYCuadradoDos);
-      // return true;
+      // console.log("Esto es true", nroYCuadradoUno, nroYCuadradoDos);
+      return true;
     }
   }
   if (nroYCuadradoUno == nroYCuadradoDos) {
@@ -31,12 +31,12 @@ const sonAdyacentes = (cuadrado1, cuadrado2) => {
       nroXCuadradoUno == nroXCuadradoDos + 1 ||
       nroXCuadradoUno == nroXCuadradoDos - 1
     ) {
-      console.log("Esto es true", nroYCuadradoUno, nroXCuadradoUno);
-      // return true;
+      // console.log("Esto es true", nroYCuadradoUno, nroXCuadradoUno);
+      return true;
     }
   }
-  console.log("Esto es false");
-  // return false;
+  // console.log("Esto es false");
+  return false;
 };
 ///////////////////////////////////////////////////
 
@@ -121,7 +121,7 @@ botonFacil.onclick = () => {
   crearGrilla(6, 6);
   ocultarBotones();
   reiniciarJuego.classList.add("facil");
-  clickeable();
+  // clickeable();
 };
 
 botonMedio.onclick = () => {
@@ -135,7 +135,8 @@ botonDificil.onclick = () => {
   crearGrilla(10, 10);
   ocultarBotones();
   reiniciarJuego.classList.add("dificil");
-  clickeable();
+  // clickeable();
+  // console.log(clickeable());
 };
 
 nuevoJuego.onclick = () => {

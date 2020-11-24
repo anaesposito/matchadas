@@ -4,7 +4,6 @@
   margin: auto;
   background-color: #ff5cb849;
   border-radius: 20px;
-  /* border: solid #ff5cb8b4 3px; */
 }
 
 .grilla > div {
@@ -37,7 +36,7 @@ body {
 }
 @keyframes clickeable {
   20% {
-    transform: scale(0.5);
+    transform: scale(0.8);
   }
 }
 /* -------------------- FIN GATITO CLICKEABLE------------------ */
