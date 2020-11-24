@@ -1,3 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300&family=Roboto:ital,wght@1,100&display=swap');
+
+body {
+    font-family: 'Montserrat', sans-serif;
+}
+
 .grilla {
   display: flex;
   flex-wrap: wrap;
@@ -6,6 +12,52 @@
   border-radius: 20px;
   /* border: solid #ff5cb8b4 3px; */
 }
+
+.modal-bienvenida {
+    background-color: #fafafa;
+    width: 500px;
+    position: absolute;
+    top: 30%;
+    left: 40%;
+    display: flex;
+    flex-wrap: wrap;
+    border-radius: 10px;
+    padding: 20px;
+    justify-content: center;
+    font-family: 'Montserrat', sans-serif;
+    color: rgb(97, 92, 92);
+    box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+}
+
+.modal-bienvenida p {
+    color: rgb(78, 74, 74);
+    
+}
+
+.modal-texto {
+    margin: 0 25px 0 25px;
+}
+
+.modal-controles {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin: 0 25px 0 25px;
+}
+
+.boton-jugar button{
+    color: white;
+    background-color: #d81b60;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-weight: 600;
+    margin-left: 350px;
+    font-size: 15px;
+    box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+    
+}
+
 
 .grilla > div {
   width: 80px;

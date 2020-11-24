@@ -5,6 +5,7 @@ const botonDificil = document.getElementById("dificil");
 const nuevoJuego = document.getElementById("nuevo-juego");
 const reiniciarJuego = document.getElementById("reiniciar-juego");
 const buscarMatches = document.getElementById("buscar-matches");
+const modalBienvenida = document.querySelector(".modal-bienvenida")
 
 const sonAdyacentes = (cuadrado1, cuadrado2) => {
   let nroXCuadradoUno = cuadrado1.dataset.x;
@@ -111,6 +112,7 @@ const crearGrilla = (ancho, alto) => {
   return grilla;
 };
 
+
 const ocultarBotones = () => {
   botonFacil.classList.add("ocultar");
   botonMedio.classList.add("ocultar");
@@ -120,6 +122,7 @@ const ocultarBotones = () => {
 botonFacil.onclick = () => {
   crearGrilla(6, 6);
   ocultarBotones();
+  ocultarModals();
   reiniciarJuego.classList.add("facil");
   clickeable();
 };
@@ -127,6 +130,7 @@ botonFacil.onclick = () => {
 botonMedio.onclick = () => {
   crearGrilla(8, 8);
   ocultarBotones();
+  ocultarModals();
   reiniciarJuego.classList.add("medio");
   clickeable();
 };
@@ -134,6 +138,7 @@ botonMedio.onclick = () => {
 botonDificil.onclick = () => {
   crearGrilla(10, 10);
   ocultarBotones();
+  ocultarModals();
   reiniciarJuego.classList.add("dificil");
   clickeable();
 };
@@ -202,3 +207,8 @@ buscarMatches.onclick = () => {
     }
   }
 };
+
+
+const ocultarModals = () => {
+    modalBienvenida.classList.add("ocultar")
+}
