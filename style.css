@@ -1,0 +1,35 @@
+img {
+  width: 40px;
+}
+
+/* tenemos que abandonar este flexbox para poser usar position y mover los elementos  desde linea 14 a 23 */
+.grilla {
+  display: flex;
+  flex-wrap: wrap;
+  /* position: relative;
+  left: 50%;
+  right: 50%; */
+}
+
+
+/* tenemos que abandonar este flexbox para poser usar position y mover los elementos  desde linea 14 a 23 */
+.grilla > div {
+  width: 80px;
+  height: 80px;
+  background-color: #ff5cb8;
+  border: 1px solid black;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.ocultar {
+  display: none;
+}
+
+body {
+  width: 100vw;
+  background-image: url(img/Fondo-Arco-Iris.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+}
