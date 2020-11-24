@@ -1,11 +1,3 @@
-//  ----------------------------------------ESTO SIRVE----------------------------------
-// const creadorImg = () => {
-//   var img = document.createElement("img");
-//   img.src = `img/Gatito-1.png`;
-//   document.body.appendChild(img);
-// };
-// creadorImg();
-
 const grilla = document.querySelector(".grilla");
 const botonFacil = document.getElementById("facil");
 const botonMedio = document.getElementById("medio");
@@ -13,20 +5,6 @@ const botonDificil = document.getElementById("dificil");
 const nuevoJuego = document.getElementById("nuevo-juego");
 const reiniciarJuego = document.getElementById("reiniciar-juego");
 const buscarMatches = document.getElementById("buscar-matches");
-
-//  ----------------------------------------ESTO SIRVE----------------------------------
-const crearGatitos = () => {
-  let contador = 0;
-  while (contador < 6) {
-    contador++;
-    let img = document.createElement("img");
-    img.src = `img/Gatito-${contador}.png`;
-    document.body.appendChild(img);
-  }
-};
-
-// ----------------------------------------------------------------------------
-//--------------------------------------------------- esto es sirve
 
 const sonAdyacentes = (cuadrado1, cuadrado2) => {
   let nroXCuadradoUno = cuadrado1.dataset.x;
@@ -68,13 +46,24 @@ const crearArrayGatitos = () => {
   for (let i = 0; i <= 5; i++) {
     let img = document.createElement("img");
     img.src = `img/Gatito-${i}.png`;
-    // contenedor.appendChild(img);
+    img.classList.add("imagen-gatito");
     array[i] = img;
   }
   return array;
 };
 //---------------------------------------------------------------------------------------
-// console.log(crearArrayGatitos());
+
+// ---------------------------------------------CLICKEABLE
+
+const clickeable = () => {
+  const imgsGatitoHtml = document.querySelectorAll(".imagen-gatito");
+
+  for (let gatito of imgsGatitoHtml) {
+    gatito.onclick = () => {
+      gatito.classList.toggle("clickeable");
+    };
+  }
+};
 
 //-----------------------------------------
 let items = crearArrayGatitos();
@@ -132,18 +121,21 @@ botonFacil.onclick = () => {
   crearGrilla(6, 6);
   ocultarBotones();
   reiniciarJuego.classList.add("facil");
+  clickeable();
 };
 
 botonMedio.onclick = () => {
   crearGrilla(8, 8);
   ocultarBotones();
   reiniciarJuego.classList.add("medio");
+  clickeable();
 };
 
 botonDificil.onclick = () => {
   crearGrilla(10, 10);
   ocultarBotones();
   reiniciarJuego.classList.add("dificil");
+  clickeable();
 };
 
 nuevoJuego.onclick = () => {
@@ -156,6 +148,7 @@ nuevoJuego.onclick = () => {
 };
 
 reiniciarJuego.onclick = () => {
+  clickeable();
   if (reiniciarJuego.classList.contains("facil")) {
     crearGrilla(6, 6);
   } else if (reiniciarJuego.classList.contains("medio")) {
