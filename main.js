@@ -6,50 +6,50 @@ const nuevoJuego = document.getElementById("nuevo-juego");
 const reiniciarJuego = document.getElementById("reiniciar-juego");
 const buscarMatches = document.getElementById("buscar-matches");
 
-const sonAdyacentes = (cuadrado1, cuadrado2) => {
-  let nroXCuadradoUno = cuadrado1.dataset.x;
-  let nroXCuadradoDos = cuadrado2.dataset.x;
-  nroXCuadradoUno = Number(nroXCuadradoUno);
-  nroXCuadradoDos = Number(nroXCuadradoDos);
+// const sonAdyacentes = (cuadrado1, cuadrado2) => {
+//   let nroXCuadradoUno = cuadrado1.dataset.x;
+//   let nroXCuadradoDos = cuadrado2.dataset.x;
+//   nroXCuadradoUno = Number(nroXCuadradoUno);
+//   nroXCuadradoDos = Number(nroXCuadradoDos);
 
-  let nroYCuadradoUno = cuadrado1.dataset.y;
-  let nroYCuadradoDos = cuadrado2.dataset.y;
-  nroYCuadradoUno = Number(nroYCuadradoUno);
-  nroYCuadradoDos = Number(nroYCuadradoDos);
+//   let nroYCuadradoUno = cuadrado1.dataset.y;
+//   let nroYCuadradoDos = cuadrado2.dataset.y;
+//   nroYCuadradoUno = Number(nroYCuadradoUno);
+//   nroYCuadradoDos = Number(nroYCuadradoDos);
 
-  if (nroXCuadradoUno == nroXCuadradoDos) {
-    if (
-      nroYCuadradoUno == nroYCuadradoDos + 1 ||
-      nroYCuadradoUno == nroYCuadradoDos - 1
-    ) {
-      // console.log("Esto es true", nroYCuadradoUno, nroYCuadradoDos);
-      return true;
-    }
-  }
-  if (nroYCuadradoUno == nroYCuadradoDos) {
-    if (
-      nroXCuadradoUno == nroXCuadradoDos + 1 ||
-      nroXCuadradoUno == nroXCuadradoDos - 1
-    ) {
-      // console.log("Esto es true", nroYCuadradoUno, nroXCuadradoUno);
-      return true;
-    }
-  }
-  // console.log("Esto es false");
-  return false;
-};
+//   if (nroXCuadradoUno == nroXCuadradoDos) {
+//     if (
+//       nroYCuadradoUno == nroYCuadradoDos + 1 ||
+//       nroYCuadradoUno == nroYCuadradoDos - 1
+//     ) {
+//       // console.log("Esto es true", nroYCuadradoUno, nroYCuadradoDos);
+//       return true;
+//     }
+//   }
+//   if (nroYCuadradoUno == nroYCuadradoDos) {
+//     if (
+//       nroXCuadradoUno == nroXCuadradoDos + 1 ||
+//       nroXCuadradoUno == nroXCuadradoDos - 1
+//     ) {
+//       // console.log("Esto es true", nroYCuadradoUno, nroXCuadradoUno);
+//       return true;
+//     }
+//   }
+//   // console.log("Esto es false");
+//   return false;
+// };
 ///////////////////////////////////////////////////
 
 const crearArrayGatitos = () => {
-  let array = [];
+  let arrayGatito = [];
 
   for (let i = 0; i <= 5; i++) {
     let img = document.createElement("img");
     img.src = `img/Gatito-${i}.png`;
     img.classList.add("imagen-gatito");
-    array[i] = img;
+    arrayGatito[i] = img;
   }
-  return array;
+  return arrayGatito;
 };
 //---------------------------------------------------------------------------------------
 
@@ -57,7 +57,6 @@ const crearArrayGatitos = () => {
 
 const clickeable = () => {
   const imgsGatitoHtml = document.querySelectorAll(".imagen-gatito");
-
   for (let gatito of imgsGatitoHtml) {
     gatito.onclick = () => {
       gatito.classList.toggle("clickeable");
@@ -65,13 +64,15 @@ const clickeable = () => {
   }
 };
 
-//-----------------------------------------
+//-----------------------------------------Declaraciones de Variables
 let items = crearArrayGatitos();
 
 let listaDeGatitos = [];
 
 let gatitos = "";
 
+const tamanioContenedor = 80;
+// ------------------------------------------
 const obtenerNumeroAlAzar = (items) => {
   let largo = items.length;
   return Math.floor(Math.random() * largo);
@@ -80,35 +81,53 @@ const obtenerGatitoAlAzar = (items) => {
   return items[obtenerNumeroAlAzar(items)];
 };
 
-const crearGrilla = (ancho, alto) => {
-  const anchoDeGrilla = 80 * ancho;
+const crearAnchoGrilla = () => {
+  const anchoDeGrilla = tamanioContenedor * 10;
   grilla.style.width = `${anchoDeGrilla}px`;
+};
 
+const crearListaDeGatitos = (ancho, alto) => {
   for (let i = 0; i < ancho; i++) {
     listaDeGatitos[i] = [];
     for (let j = 0; j < alto; j++) {
       listaDeGatitos[i][j] = obtenerGatitoAlAzar(items);
     }
   }
+  return listaDeGatitos;
+};
 
-  grilla.innerHTML = "";
+const crearDivGatito = (datax, datay, array) => {
+  const divGatito = document.createElement("div");
+  divGatito.classList.add("contenedor-gatito");
+  divGatito.dataset.x = datax;
+  divGatito.dataset.y = datay;
+  divGatito.innerHTML = array[datax][datay];
+  divGatito.style.top = `${x * tamanioDiv}px`;
+  divGatito.style.left = `${y * tamanioDiv}px`;
+  return divGatito;
+};
 
+const agregarImgGatito = () => {
   for (let i = 0; i < listaDeGatitos.length; i++) {
     for (let j = 0; j < listaDeGatitos[i].length; j++) {
       gatitos = obtenerGatitoAlAzar(items);
       listaDeGatitos[i][j] = gatitos;
-
-      grilla.innerHTML += `<div class="contenedor-gatito" data-x="${i}" data-y="${j}"></div>`;
-
       let contenedores = document.querySelectorAll(".contenedor-gatito");
-
       for (contenedor of contenedores) {
         contenedor.appendChild(gatitos);
       }
     }
   }
+};
 
-  return grilla;
+const crearGrillaHTML = () => {
+  crearAnchoGrilla();
+
+  for (let i = 0; i < listaDeGatitos.length; i++) {
+    for (let j = 0; j < listaDeGatitos[i].length; j++) {
+      grilla.appendChild(crearDivGatito(i, j, listaDeGatitos));
+    }
+  }
 };
 
 const ocultarBotones = () => {
@@ -118,21 +137,27 @@ const ocultarBotones = () => {
 };
 
 botonFacil.onclick = () => {
-  crearGrilla(6, 6);
+  crearDivGatito();
+  crearListaDeGatitos(6, 6);
+  crearGrillaHTML();
   ocultarBotones();
   reiniciarJuego.classList.add("facil");
-  // clickeable();
+  clickeable();
 };
 
 botonMedio.onclick = () => {
-  crearGrilla(8, 8);
+  crearDivGatito();
+  crearListaDeGatitos(8, 8);
+  crearGrillaHTML();
   ocultarBotones();
   reiniciarJuego.classList.add("medio");
   clickeable();
 };
 
 botonDificil.onclick = () => {
-  crearGrilla(10, 10);
+  crearDivGatito();
+  crearListaDeGatitos(10, 10);
+  crearGrillaHTML();
   ocultarBotones();
   reiniciarJuego.classList.add("dificil");
   // clickeable();
@@ -151,11 +176,11 @@ nuevoJuego.onclick = () => {
 reiniciarJuego.onclick = () => {
   clickeable();
   if (reiniciarJuego.classList.contains("facil")) {
-    crearGrilla(6, 6);
+    crearGrilla();
   } else if (reiniciarJuego.classList.contains("medio")) {
-    crearGrilla(8, 8);
+    crearGrilla();
   } else if (reiniciarJuego.classList.contains("dificil")) {
-    crearGrilla(10, 10);
+    crearGrilla();
   }
 };
 
