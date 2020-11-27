@@ -5,7 +5,10 @@ const botonDificil = document.getElementById("dificil");
 const nuevoJuego = document.getElementById("nuevo-juego");
 const reiniciarJuego = document.getElementById("reiniciar-juego");
 const buscarMatches = document.getElementById("buscar-matches");
-const modalBienvenida = document.querySelector(".modal-bienvenida")
+const modalBienvenida = document.querySelector(".modal");
+const AJugar = document.getElementById("boton-jugar");
+const botonCruz = document.querySelector(".delete")
+
 
 const sonAdyacentes = (cuadrado1, cuadrado2) => {
   let nroXCuadradoUno = cuadrado1.dataset.x;
@@ -212,3 +215,14 @@ buscarMatches.onclick = () => {
 const ocultarModals = () => {
     modalBienvenida.classList.add("ocultar")
 }
+
+const comenzarAJugar = () => {
+  AJugar.onclick = () => {
+    ocultarModals()
+  }
+  botonCruz.onclick = () => {
+    ocultarModals()
+  }
+}
+
+comenzarAJugar()

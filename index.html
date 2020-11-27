@@ -5,6 +5,7 @@
     <link rel="stylesheet" href="style.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
     <title>Document</title>
 </head>
 
@@ -21,7 +22,7 @@
     <div class="grilla">
     </div>
 
-    <div class="modal-bienvenida">
+    <!-- <div class="modal-bienvenida">
         <h1>¡Bienvenida!</h1>
         <div class="modal-texto">
             <p>En MatcheADAs tu objetivo es juntar tres o más ítems del mismo tipo, ya sea en fila o columna. Para eso,
@@ -38,7 +39,38 @@
         <div class="boton-jugar">
             <button>A Jugar</button>
         </div>
+    </div> -->
+
+    <div id="modal-bienvenida" class="modal is-active">
+        <div class="modal-background"></div>
+        <div id="modal-tarjeta" class="modal-card">
+            <header class="modal-card-head">
+                <h1 class="modal-card-title">¡Bienvenidas!</h1>
+                <button class="delete" aria-label="close"></button>
+            </header>
+            <section id="modal-texto" class="modal-card-body">
+                <p id="texto">En MatcheADAs tu objetivo es juntar tres o más ítems del mismo tipo, ya sea en fila o columna. Para
+                    eso,
+                    selecciona un ítem y a continuacion un ítem adyacente para intercambiarlos de lugar.
+                </p>
+                <p id="texto">Si se forma un grupo, esos ítems se eliminarán y ganarás puntos. ¡Sigue armando grupos de 3 o más
+                    antes
+                    de que se acabe el tiempo!</p>
+            </section>
+            <section id="modal-controles" class="modal-card-body">
+                <h2 class="modal-card-title">Controles</h2>
+                <p>Click izquierdo: seleccion</p>
+                <p>Enter o Espacio: seleccion</p>
+                <p>Flechas o WASD: movimiento e intercambio</p>
+
+            </section>
+            <footer class="modal-card-foot">
+                <button id="boton-jugar" class="button is-primary">A Jugar</button>
+            </footer>
+        </div>
     </div>
+
+
 
     <button id="buscar-matches">Buscar Matches</button>
     <script src="main.js"></script>

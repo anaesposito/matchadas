@@ -12,7 +12,7 @@ body {
   border-radius: 20px;
   /* border: solid #ff5cb8b4 3px; */
 }
-
+/* 
 .modal-bienvenida {
     background-color: #fafafa;
     width: 500px;
@@ -34,28 +34,50 @@ body {
     
 }
 
-.modal-texto {
-    margin: 0 25px 0 25px;
-}
+
 
 .modal-controles {
     display: flex;
     align-items: center;
     flex-direction: column;
     margin: 0 25px 0 25px;
+} */
+
+#modal-bienvenida {
+  position: absolute;
+  z-index: 11111;
 }
 
-.boton-jugar button{
-    color: white;
-    background-color: #d81b60;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
-    font-weight: 600;
-    margin-left: 350px;
-    font-size: 15px;
-    box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
-    
+#modal-tarjeta {
+  width: 500px;
+}
+
+#texto {
+  margin: 0 25px 0 25px;
+}
+
+#modal-texto {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+}
+
+#modal-controles {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+#modal-controles h2 {
+  margin-bottom: 10px;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+#boton-jugar {
+  background-color: #d81b60;
+  margin-left: 350px;
 }
 
 
@@ -69,7 +91,8 @@ body {
   align-items: center;
 }
 .ocultar {
-  display: none;
+  display: none !important ;
+  
 }
 
 body {
