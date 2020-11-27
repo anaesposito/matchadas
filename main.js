@@ -44,10 +44,7 @@ const crearArrayGatitos = () => {
   let array = [];
 
   for (let i = 0; i <= 5; i++) {
-    let img = document.createElement("img");
-    img.src = `img/Gatito-${i}.png`;
-    img.classList.add("imagen-gatito");
-    array[i] = img;
+    array[i] = `img/Gatito-${i}.png`;
   }
   return array;
 };
@@ -66,6 +63,7 @@ const clickeable = () => {
 };
 
 //-----------------------------------------
+let tamanio = 80;
 let items = crearArrayGatitos();
 
 let listaDeGatitos = [];
@@ -79,6 +77,22 @@ const obtenerNumeroAlAzar = (items) => {
 const obtenerGatitoAlAzar = (items) => {
   return items[obtenerNumeroAlAzar(items)];
 };
+const crearDivGatito = (x, y) => {
+  const divGatito = document.createElement("div");
+  divGatito.dataset.x = x;
+  divGatito.dataset.y = y;
+
+  let img = document.createElement("img");
+  img.src = listaDeGatitos[x][y];
+  img.classList.add("imagen-gatito");
+
+  divGatito.appendChild(img);
+
+  divGatito.style.top = `${x * tamanio}px`;
+  divGatito.style.left = `${y * tamanio}px`;
+  divGatito.className = "contenedor-gatito";
+  return divGatito;
+};
 
 const crearGrilla = (ancho, alto) => {
   const anchoDeGrilla = 80 * ancho;
@@ -90,21 +104,14 @@ const crearGrilla = (ancho, alto) => {
       listaDeGatitos[i][j] = obtenerGatitoAlAzar(items);
     }
   }
-
-  grilla.innerHTML = "";
-
+  return listaDeGatitos;
+};
+const crearGrillaHtml = () => {
   for (let i = 0; i < listaDeGatitos.length; i++) {
     for (let j = 0; j < listaDeGatitos[i].length; j++) {
       gatitos = obtenerGatitoAlAzar(items);
       listaDeGatitos[i][j] = gatitos;
-
-      grilla.innerHTML += `<div class="contenedor-gatito" data-x="${i}" data-y="${j}"></div>`;
-
-      let contenedores = document.querySelectorAll(".contenedor-gatito");
-
-      for (contenedor of contenedores) {
-        contenedor.appendChild(gatitos);
-      }
+      grilla.appendChild(crearDivGatito(i, j));
     }
   }
 
@@ -119,6 +126,7 @@ const ocultarBotones = () => {
 
 botonFacil.onclick = () => {
   crearGrilla(6, 6);
+  crearGrillaHtml();
   ocultarBotones();
   reiniciarJuego.classList.add("facil");
   clickeable();
@@ -126,6 +134,7 @@ botonFacil.onclick = () => {
 
 botonMedio.onclick = () => {
   crearGrilla(8, 8);
+  crearGrillaHtml();
   ocultarBotones();
   reiniciarJuego.classList.add("medio");
   clickeable();
@@ -133,6 +142,7 @@ botonMedio.onclick = () => {
 
 botonDificil.onclick = () => {
   crearGrilla(10, 10);
+  crearGrillaHtml();
   ocultarBotones();
   reiniciarJuego.classList.add("dificil");
   clickeable();
