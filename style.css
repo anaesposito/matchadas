@@ -50,7 +50,16 @@ body {
   margin-left: 350px;
 }
 
-.boton-dificultad {
+#texto-juegoTerminado {
+  display: flex;
+  justify-content: center;
+}
+
+#nuevo-juego {
+  margin-left: 110px;
+}
+
+.is-primary {
   background-color: #d81b60 !important;
 }
 

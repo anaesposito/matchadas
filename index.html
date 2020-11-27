@@ -11,8 +11,8 @@
 
 <body>
 
-    <button id="nuevo-juego">Nuevo Juego</button>
-    <button id="reiniciar-juego">Reiniciar Juego</button>
+    <!-- <button id="nuevo-juego">Nuevo Juego</button>
+    <button id="reiniciar-juego">Reiniciar Juego</button> -->
     <!-- <button id="facil" class="ocultar">Facil</button>
     <button id="medio" class="ocultar">Medio</button>
     <button id="dificil" class="ocultar">Dificil</button> -->
@@ -70,6 +70,25 @@
         </div>
     </div>
 
+    
+    
+    <div class="modal-juegoTerminado modal is-active ocultar">
+        <div class="modal-background"></div>
+        <div id="modal-tarjeta" class="modal-card">
+            <header class="modal-card-head">
+                <h1 class="modal-card-title">¡Juego terminado!</h1>
+                <button class="delete" aria-label="close"></button>
+            </header>
+            <section id="texto-juegoTerminado" class="modal-card-body">
+                <p>Puntaje final: <span>000</span> </p>
+            </section>
+            <footer class="modal-card-foot">
+                <button id="nuevo-juego" class="button is-primary">Nuevo Juego</button>
+                <button id="reiniciar-juego" class="button is-primary">Reiniciar</button>
+            </footer>
+        </div>
+    </div>
+    
     <div class="modal-dificultad modal is-active">
         <div class="modal-background"></div>
         <div id="modal-tarjeta" class="modal-card">
@@ -81,14 +100,14 @@
                 <p>Selecciona la dificultad</p>
             </section>
             <footer class="modal-card-foot">
-                <button id="facil" class="boton-dificultad button is-primary">Fácil</button>
-                <button id="medio" class="boton-dificultad button is-primary">Medio</button>
-                <button id="dificil" class="boton-dificultad button is-primary">Difícil</button>
+                <button id="facil" class="button is-primary">Fácil</button>
+                <button id="medio" class="button is-primary">Medio</button>
+                <button id="dificil" class="button is-primary">Difícil</button>
             </footer>
         </div>
     </div>
 
-    <button id="buscar-matches">Buscar Matches</button>
+    <button id="buscar-matches" class="button is-primary">Buscar Matches</button>
     <script src="main.js"></script>
 </body>
 
