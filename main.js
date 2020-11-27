@@ -2,9 +2,14 @@ const grilla = document.querySelector(".grilla");
 const botonFacil = document.getElementById("facil");
 const botonMedio = document.getElementById("medio");
 const botonDificil = document.getElementById("dificil");
-const nuevoJuego = document.getElementById("nuevo-juego");
+// const nuevoJuego = document.getElementById("nuevo-juego");
 const reiniciarJuego = document.getElementById("reiniciar-juego");
 const buscarMatches = document.getElementById("buscar-matches");
+const contenedorBotonFacil = document.getElementById("contenedor-boton-facil");
+const contenedorBotonMedio = document.getElementById("contenedor-boton-medio");
+const contenedorBotonDificil = document.getElementById(
+  "contenedor-boton-dificil"
+);
 
 const sonAdyacentes = (cuadrado1, cuadrado2) => {
   let nroXCuadradoUno = cuadrado1.dataset.x;
@@ -118,55 +123,79 @@ const crearGrillaHtml = () => {
   return grilla;
 };
 
+// ---------------Obtener bloque de Matches
+const obtenerBloqueDeMatches = (arr) => {
+  return document.querySelector(`div[data-x='${arr[0]}'][data-y='${arr[1]}']`);
+};
+
 const ocultarBotones = () => {
   botonFacil.classList.add("ocultar");
   botonMedio.classList.add("ocultar");
   botonDificil.classList.add("ocultar");
 };
 
+const vaciarGrilla = () => {
+  grilla.innerHTML = "";
+  matchesHorizontales = [];
+  matchesVerticales = [];
+};
+
 botonFacil.onclick = () => {
+  ocultarSeleccionDificultad();
+  vaciarGrilla();
   crearGrilla(6, 6);
   crearGrillaHtml();
-  ocultarBotones();
-  reiniciarJuego.classList.add("facil");
+  // ocultarBotones();
+  // reiniciarJuego.classList.add("facil");
   clickeable();
 };
 
 botonMedio.onclick = () => {
+  ocultarSeleccionDificultad();
+  vaciarGrilla();
   crearGrilla(8, 8);
   crearGrillaHtml();
-  ocultarBotones();
-  reiniciarJuego.classList.add("medio");
+  // ocultarBotones();
+  // reiniciarJuego.classList.add("medio");
   clickeable();
 };
 
 botonDificil.onclick = () => {
+  ocultarSeleccionDificultad();
+  vaciarGrilla();
   crearGrilla(10, 10);
   crearGrillaHtml();
-  ocultarBotones();
-  reiniciarJuego.classList.add("dificil");
+  // ocultarBotones();
+  // reiniciarJuego.classList.add("dificil");
   clickeable();
 };
 
-nuevoJuego.onclick = () => {
-  botonFacil.classList.toggle("ocultar");
-  botonMedio.classList.toggle("ocultar");
-  botonDificil.classList.toggle("ocultar");
-  reiniciarJuego.classList.remove("facil");
-  reiniciarJuego.classList.remove("medio");
-  reiniciarJuego.classList.remove("dificil");
-};
+// AJugar.onclick = () => {
+//   vaciarGrilla();
+//   contenedorBotonFacil.classList.toggle("ocultar");
+//   contenedorBotonMedio.classList.toggle("ocultar");
+//   contenedorBotonDificil.classList.toggle("ocultar");
+//   reiniciarJuego.classList.remove("facil");
+//   reiniciarJuego.classList.remove("medio");
+//   reiniciarJuego.classList.remove("dificil");
+// };
 
-reiniciarJuego.onclick = () => {
-  clickeable();
-  if (reiniciarJuego.classList.contains("facil")) {
-    crearGrilla(6, 6);
-  } else if (reiniciarJuego.classList.contains("medio")) {
-    crearGrilla(8, 8);
-  } else if (reiniciarJuego.classList.contains("dificil")) {
-    crearGrilla(10, 10);
-  }
-};
+// reiniciarJuego.onclick = () => {
+//   clickeable();
+//   vaciarGrilla();
+//   if (reiniciarJuego.classList.contains("facil")) {
+//     crearGrilla(6, 6);
+//     crearGrillaHtml();
+//   } else if (reiniciarJuego.classList.contains("medio")) {
+//     crearGrilla(8, 8);
+//     crearGrillaHtml();
+//   } else if (reiniciarJuego.classList.contains("dificil")) {
+//     crearGrilla(10, 10);
+//     crearGrillaHtml();
+//   }
+// };
+let matchesHorizontales = [];
+let matchesVerticales = [];
 
 buscarMatches.onclick = () => {
   for (let i = 0; i < listaDeGatitos.length; i++) {
@@ -175,40 +204,78 @@ buscarMatches.onclick = () => {
         listaDeGatitos[i][j] === listaDeGatitos[i][j + 1] &&
         listaDeGatitos[i][j + 1] === listaDeGatitos[i][j + 2]
       ) {
-        const div = document.querySelector(`div[data-x="${i}"][data-y="${j}"]`);
-        div.style.backgroundColor = "yellow";
-        const divDos = document.querySelector(
-          `div[data-x="${i}"][data-y="${j + 1}"]`
-        );
-        sonAdyacentes(div, divDos);
-        divDos.style.backgroundColor = "yellow";
-        const divTres = document.querySelector(
-          `div[data-x="${i}"][data-y="${j + 2}"]`
-        );
-        divTres.style.backgroundColor = "yellow";
+        matchesHorizontales.push([i, j]);
+        matchesHorizontales.push([i, j + 1]);
+        matchesHorizontales.push([i, j + 2]);
       }
-    }
-  }
-  for (let i = 0; i < listaDeGatitos.length; i++) {
-    for (let j = 0; j < listaDeGatitos[i].length; j++) {
       if (
         listaDeGatitos[i + 1] &&
         listaDeGatitos[i + 2] &&
         listaDeGatitos[i][j] === listaDeGatitos[i + 1][j] &&
         listaDeGatitos[i][j] === listaDeGatitos[i + 2][j]
       ) {
-        const uno = document.querySelector(`div[data-x="${i}"][data-y="${j}"]`);
-        uno.style.backgroundColor = "red";
-        const dos = document.querySelector(
-          `div[data-x="${i + 1}"][data-y="${j}"]`
-        );
-        dos.style.backgroundColor = "red";
-        sonAdyacentes(uno, dos);
-        const tres = document.querySelector(
-          `div[data-x="${i + 2}"][data-y="${j}"]`
-        );
-        tres.style.backgroundColor = "red";
+        matchesVerticales.push([i, j]);
+        matchesVerticales.push([i + 1, j]);
+        matchesVerticales.push([i + 2, j]);
       }
     }
   }
+
+  colorearMatches();
 };
+
+// ------------------ recorrer matches------------
+const colorearMatches = () => {
+  for (let i = 0; i < matchesHorizontales.length; i++) {
+    obtenerBloqueDeMatches(matchesHorizontales[i]).style.backgroundColor =
+      "yellow";
+  }
+  for (let i = 0; i < matchesVerticales.length; i++) {
+    obtenerBloqueDeMatches(matchesVerticales[i]).style.backgroundColor =
+      "orange";
+  }
+  if (!matchesHorizontales.length && !matchesVerticales.length) {
+    alert("No hay matches :(");
+  }
+};
+
+/**************cuenta regresiva */
+let tiempo = 30;
+const tiempoHtml = document.getElementById("tiempo");
+console.log(tiempoHtml);
+const cuentaRegresiva = () => {
+  tiempoHtml.innerHTML = `0:${tiempo}`;
+  if (tiempo <= 0) {
+  } else {
+    tiempo -= 1;
+    setTimeout("cuentaRegresiva()", 1000);
+  }
+};
+
+// ------------------------------------INICIO MODALES
+const modalBienvenida = document.querySelector("#contenedor-modal-bienvenida");
+const AJugar = document.getElementById("boton-jugar");
+const botonCruz = document.querySelector(".delete");
+const modalDificultad = document.querySelector("#contenedor-modal-dificultad");
+
+const ocultarBienvenida = () => {
+  modalBienvenida.classList.add("ocultar");
+};
+
+const ocultarSeleccionDificultad = () => {
+  modalDificultad.classList.add("ocultar");
+};
+
+const comenzarAJugar = () => {
+  AJugar.onclick = () => {
+    ocultarBienvenida();
+  };
+  botonCruz.onclick = () => {
+    ocultarBienvenida();
+    ocultarSeleccionDificultad();
+  };
+};
+
+comenzarAJugar();
+
+// ------------------------------------FIN MODALES
