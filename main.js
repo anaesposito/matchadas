@@ -13,6 +13,11 @@ const botonDificil = document.getElementById("dificil");
 const nuevoJuego = document.getElementById("nuevo-juego");
 const reiniciarJuego = document.getElementById("reiniciar-juego");
 const buscarMatches = document.getElementById("buscar-matches");
+const modalBienvenida = document.querySelector(".modal");
+const AJugar = document.getElementById("boton-jugar");
+const botonCruz = document.querySelector(".delete")
+const modalDificultad = document.querySelector(".modal-dificultad")
+
 
 //  ----------------------------------------ESTO SIRVE----------------------------------
 const crearGatitos = () => {
@@ -122,6 +127,7 @@ const crearGrilla = (ancho, alto) => {
   return grilla;
 };
 
+
 const ocultarBotones = () => {
   botonFacil.classList.add("ocultar");
   botonMedio.classList.add("ocultar");
@@ -131,18 +137,24 @@ const ocultarBotones = () => {
 botonFacil.onclick = () => {
   crearGrilla(6, 6);
   ocultarBotones();
+  ocultarBienvenida();
+  ocultarSeleccionDificultad();
   reiniciarJuego.classList.add("facil");
 };
 
 botonMedio.onclick = () => {
   crearGrilla(8, 8);
   ocultarBotones();
+  ocultarBienvenida();
+  ocultarSeleccionDificultad();
   reiniciarJuego.classList.add("medio");
 };
 
 botonDificil.onclick = () => {
   crearGrilla(10, 10);
   ocultarBotones();
+  ocultarBienvenida();
+  ocultarSeleccionDificultad();
   reiniciarJuego.classList.add("dificil");
 };
 
@@ -208,4 +220,31 @@ buscarMatches.onclick = () => {
       }
     }
   }
+<<<<<<< HEAD
 };
+=======
+};
+
+
+const ocultarBienvenida = () => {
+  modalBienvenida.classList.add("ocultar")
+}
+
+const ocultarSeleccionDificultad = () => {
+  modalDificultad.classList.add("ocultar")
+
+}
+
+const comenzarAJugar = () => {
+  AJugar.onclick = () => {
+    ocultarBienvenida()
+  }
+  botonCruz.onclick = () => {
+    ocultarBienvenida();
+    ocultarSeleccionDificultad();
+  }
+}
+
+comenzarAJugar()
+
+>>>>>>> branchsol
