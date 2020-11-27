@@ -220,9 +220,6 @@ buscarMatches.onclick = () => {
       }
     }
   }
-<<<<<<< HEAD
-};
-=======
 };
 
 
@@ -247,4 +244,3 @@ const comenzarAJugar = () => {
 
 comenzarAJugar()
 
->>>>>>> branchsol

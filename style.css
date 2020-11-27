@@ -1,17 +1,14 @@
-<<<<<<< HEAD
 img {
   width: 40px;
 }
 
 /* tenemos que abandonar este flexbox para poser usar position y mover los elementos  desde linea 14 a 23 */
-=======
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300&family=Roboto:ital,wght@1,100&display=swap');
 
 body {
     font-family: 'Montserrat', sans-serif;
 }
 
->>>>>>> branchsol
 .grilla {
   display: flex;
   flex-wrap: wrap;
@@ -23,12 +20,6 @@ body {
   right: 50%; */
 }
 
-<<<<<<< HEAD
-
-/* tenemos que abandonar este flexbox para poser usar position y mover los elementos  desde linea 14 a 23 */
-
-
-=======
 #modal-bienvenida {
   position: absolute;
   z-index: 11111;
@@ -69,7 +60,6 @@ body {
 .boton-dificultad {
   background-color: #d81b60 !important;
 }
->>>>>>> branchsol
 
 .grilla > div {
   width: 80px;
