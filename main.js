@@ -146,7 +146,7 @@ botonFacil.onclick = () => {
   crearGrilla(6, 6);
   crearGrillaHtml();
   // ocultarBotones();
-  // reiniciarJuego.classList.add("facil");
+  reiniciarJuego.classList.add("facil");
   clickeable();
 };
 
@@ -156,7 +156,7 @@ botonMedio.onclick = () => {
   crearGrilla(8, 8);
   crearGrillaHtml();
   // ocultarBotones();
-  // reiniciarJuego.classList.add("medio");
+  reiniciarJuego.classList.add("medio");
   clickeable();
 };
 
@@ -166,7 +166,7 @@ botonDificil.onclick = () => {
   crearGrilla(10, 10);
   crearGrillaHtml();
   // ocultarBotones();
-  // reiniciarJuego.classList.add("dificil");
+  reiniciarJuego.classList.add("dificil");
   clickeable();
 };
 
@@ -180,20 +180,20 @@ botonDificil.onclick = () => {
 //   reiniciarJuego.classList.remove("dificil");
 // };
 
-// reiniciarJuego.onclick = () => {
-//   clickeable();
-//   vaciarGrilla();
-//   if (reiniciarJuego.classList.contains("facil")) {
-//     crearGrilla(6, 6);
-//     crearGrillaHtml();
-//   } else if (reiniciarJuego.classList.contains("medio")) {
-//     crearGrilla(8, 8);
-//     crearGrillaHtml();
-//   } else if (reiniciarJuego.classList.contains("dificil")) {
-//     crearGrilla(10, 10);
-//     crearGrillaHtml();
-//   }
-// };
+reiniciarJuego.onclick = () => {
+  clickeable();
+  vaciarGrilla();
+  if (reiniciarJuego.classList.contains("facil")) {
+    crearGrilla(6, 6);
+    crearGrillaHtml();
+  } else if (reiniciarJuego.classList.contains("medio")) {
+    crearGrilla(8, 8);
+    crearGrillaHtml();
+  } else if (reiniciarJuego.classList.contains("dificil")) {
+    crearGrilla(10, 10);
+    crearGrillaHtml();
+  }
+};
 let matchesHorizontales = [];
 let matchesVerticales = [];
 
@@ -257,25 +257,23 @@ const modalBienvenida = document.querySelector("#contenedor-modal-bienvenida");
 const AJugar = document.getElementById("boton-jugar");
 const botonCruz = document.querySelector(".delete");
 const modalDificultad = document.querySelector("#contenedor-modal-dificultad");
+const botonCerrarDificultad = document.querySelector("#cerrar-dificultad");
 
 const ocultarBienvenida = () => {
   modalBienvenida.classList.add("ocultar");
 };
 
 const ocultarSeleccionDificultad = () => {
+  console.log(modalDificultad);
   modalDificultad.classList.add("ocultar");
 };
 
-const comenzarAJugar = () => {
-  AJugar.onclick = () => {
-    ocultarBienvenida();
-  };
-  botonCruz.onclick = () => {
-    ocultarBienvenida();
-    ocultarSeleccionDificultad();
-  };
+AJugar.onclick = () => {
+  ocultarBienvenida();
 };
 
-comenzarAJugar();
+// botonCerrarDificultad.onclick = () => {
+//   ocultarSeleccionDificultad();
+// };
 
 // ------------------------------------FIN MODALES
