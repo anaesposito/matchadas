@@ -1,8 +1,10 @@
 body {
   width: 100vw;
+  height: 100vh;
   background-image: url(img/Fondo-Arco-Iris.png);
   background-size: cover;
   background-repeat: no-repeat;
+ 
 }
 
 .grilla {
