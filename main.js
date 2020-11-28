@@ -127,6 +127,33 @@ const crearGrilla = (ancho, alto) => {
   return grilla;
 };
 
+//si hay maches inicialmente
+
+// const buscarBloquesINicial = () => {
+//   for (let i = 0 ; i< listaDeGatitos.length; i++) {
+//     for (let j = 0; j < listaDeGatitos[i].length; j++) {
+//       if(listaDeGatitos[i][j]===listaDeGatitos[i][j+1] && listaDeGatitos[i][j]===listaDeGatitos[i][j+2]) {
+//         // return true 
+//         console.log("hay maches")
+//       }
+//       if(listaDeGatitos[i+1] && listaDeGatitos[i+2] && listaDeGatitos[i][j]===listaDeGatitos[i+1][j] && listaDeGatitos[i][j] === listaDeGatitos[i+2][j]  ) {
+//         // return true
+//         console.log("hay maches")
+//       }
+      
+//     }
+//   }
+//   // return false
+//   console.log("no hay maches")
+// }
+
+// buscarBloquesINicial()
+
+// do {
+//   crearGrilla()
+// }
+// while(buscarBloquesINicial())
+
 
 const ocultarBotones = () => {
   botonFacil.classList.add("ocultar");
