@@ -11,6 +11,103 @@ const contenedorBotonDificil = document.getElementById(
   "contenedor-boton-dificil"
 );
 
+//----------------------------- inicio sin bloques
+const inicioSinBloquesFacil = () => {
+  do {
+    ocultarSeleccionDificultad();
+    vaciarGrilla();
+    crearGrilla(6, 6);
+    crearGrillaHtml();
+    clickeable();
+  } while (buscarBloqueInicial());
+};
+
+const inicioSinBloquesMedio = () => {
+  do {
+    ocultarSeleccionDificultad();
+    vaciarGrilla();
+    crearGrilla(8, 8);
+    crearGrillaHtml();
+    clickeable();
+  } while (buscarBloqueInicial());
+};
+
+const inicioSinBloquesDificil = () => {
+  do {
+    ocultarSeleccionDificultad();
+    vaciarGrilla();
+    crearGrilla(10, 10);
+    crearGrillaHtml();
+    clickeable();
+  } while (buscarBloqueInicial());
+};
+
+// ------------------ recorrer matches y colorearlos------------
+const colorearMatches = () => {
+  for (let i = 0; i < matchesHorizontales.length; i++) {
+    obtenerBloqueDeMatches(matchesHorizontales[i]).style.backgroundColor =
+      "yellow";
+  }
+  for (let i = 0; i < matchesVerticales.length; i++) {
+    obtenerBloqueDeMatches(matchesVerticales[i]).style.backgroundColor =
+      "orange";
+  }
+  if (!matchesHorizontales.length && !matchesVerticales.length) {
+    alert("No hay matches :(");
+  }
+};
+// ---------------------------INICIO BUSCAR BLOQUES AL CARGAR
+const buscarBloques = () => {
+  for (let i = 0; i < listaDeGatitos.length; i++) {
+    for (let j = 0; j < listaDeGatitos[i].length; j++) {
+      if (
+        listaDeGatitos[i][j] === listaDeGatitos[i][j + 1] &&
+        listaDeGatitos[i][j + 1] === listaDeGatitos[i][j + 2]
+      ) {
+        matchesHorizontales.push([i, j]);
+        matchesHorizontales.push([i, j + 1]);
+        matchesHorizontales.push([i, j + 2]);
+      }
+      if (
+        listaDeGatitos[i + 1] &&
+        listaDeGatitos[i + 2] &&
+        listaDeGatitos[i][j] === listaDeGatitos[i + 1][j] &&
+        listaDeGatitos[i][j] === listaDeGatitos[i + 2][j]
+      ) {
+        matchesVerticales.push([i, j]);
+        matchesVerticales.push([i + 1, j]);
+        matchesVerticales.push([i + 2, j]);
+      }
+    }
+  }
+  colorearMatches();
+};
+
+// -------------------------BUSCAR BLOQUE INICIAL------------------
+
+const buscarBloqueInicial = () => {
+  for (let i = 0; i < listaDeGatitos.length; i++) {
+    for (let j = 0; j < listaDeGatitos[i].length; j++) {
+      if (
+        listaDeGatitos[i][j] === listaDeGatitos[i][j + 1] &&
+        listaDeGatitos[i][j + 1] === listaDeGatitos[i][j + 2]
+      ) {
+        return true;
+      }
+      if (
+        listaDeGatitos[i + 1] &&
+        listaDeGatitos[i + 2] &&
+        listaDeGatitos[i][j] === listaDeGatitos[i + 1][j] &&
+        listaDeGatitos[i][j] === listaDeGatitos[i + 2][j]
+      ) {
+        return true;
+      }
+    }
+  }
+  return false;
+};
+
+// --------------INICIO SON ADYACENTES
 const sonAdyacentes = (cuadrado1, cuadrado2) => {
   let nroXCuadradoUno = cuadrado1.dataset.x;
   let nroXCuadradoDos = cuadrado2.dataset.x;
@@ -141,33 +238,37 @@ const vaciarGrilla = () => {
 };
 
 botonFacil.onclick = () => {
-  ocultarSeleccionDificultad();
-  vaciarGrilla();
-  crearGrilla(6, 6);
-  crearGrillaHtml();
+  inicioSinBloquesFacil();
+
+  // ocultarSeleccionDificultad();
+  // vaciarGrilla();
+  // crearGrilla(6, 6);
+  // crearGrillaHtml();
   // ocultarBotones();
   reiniciarJuego.classList.add("facil");
-  clickeable();
+  // clickeable();
 };
 
 botonMedio.onclick = () => {
-  ocultarSeleccionDificultad();
-  vaciarGrilla();
-  crearGrilla(8, 8);
-  crearGrillaHtml();
+  inicioSinBloquesMedio();
+  // ocultarSeleccionDificultad();
+  // vaciarGrilla();
+  // crearGrilla(8, 8);
+  // crearGrillaHtml();
   // ocultarBotones();
   reiniciarJuego.classList.add("medio");
-  clickeable();
+  // clickeable();
 };
 
 botonDificil.onclick = () => {
-  ocultarSeleccionDificultad();
-  vaciarGrilla();
-  crearGrilla(10, 10);
-  crearGrillaHtml();
+  inicioSinBloquesDificil();
+  // ocultarSeleccionDificultad();
+  // vaciarGrilla();
+  // crearGrilla(10, 10);
+  // crearGrillaHtml();
   // ocultarBotones();
   reiniciarJuego.classList.add("dificil");
-  clickeable();
+  // clickeable();
 };
 
 // AJugar.onclick = () => {
@@ -184,59 +285,18 @@ reiniciarJuego.onclick = () => {
   clickeable();
   vaciarGrilla();
   if (reiniciarJuego.classList.contains("facil")) {
-    crearGrilla(6, 6);
-    crearGrillaHtml();
+    inicioSinBloquesFacil();
   } else if (reiniciarJuego.classList.contains("medio")) {
-    crearGrilla(8, 8);
-    crearGrillaHtml();
+    inicioSinBloquesMedio();
   } else if (reiniciarJuego.classList.contains("dificil")) {
-    crearGrilla(10, 10);
-    crearGrillaHtml();
+    inicioSinBloquesDificil();
   }
 };
 let matchesHorizontales = [];
 let matchesVerticales = [];
 
 buscarMatches.onclick = () => {
-  for (let i = 0; i < listaDeGatitos.length; i++) {
-    for (let j = 0; j < listaDeGatitos[i].length; j++) {
-      if (
-        listaDeGatitos[i][j] === listaDeGatitos[i][j + 1] &&
-        listaDeGatitos[i][j + 1] === listaDeGatitos[i][j + 2]
-      ) {
-        matchesHorizontales.push([i, j]);
-        matchesHorizontales.push([i, j + 1]);
-        matchesHorizontales.push([i, j + 2]);
-      }
-      if (
-        listaDeGatitos[i + 1] &&
-        listaDeGatitos[i + 2] &&
-        listaDeGatitos[i][j] === listaDeGatitos[i + 1][j] &&
-        listaDeGatitos[i][j] === listaDeGatitos[i + 2][j]
-      ) {
-        matchesVerticales.push([i, j]);
-        matchesVerticales.push([i + 1, j]);
-        matchesVerticales.push([i + 2, j]);
-      }
-    }
-  }
-
-  colorearMatches();
-};
-
-// ------------------ recorrer matches------------
-const colorearMatches = () => {
-  for (let i = 0; i < matchesHorizontales.length; i++) {
-    obtenerBloqueDeMatches(matchesHorizontales[i]).style.backgroundColor =
-      "yellow";
-  }
-  for (let i = 0; i < matchesVerticales.length; i++) {
-    obtenerBloqueDeMatches(matchesVerticales[i]).style.backgroundColor =
-      "orange";
-  }
-  if (!matchesHorizontales.length && !matchesVerticales.length) {
-    alert("No hay matches :(");
-  }
+  buscarBloques();
 };
 
 /**************cuenta regresiva */
@@ -264,7 +324,6 @@ const ocultarBienvenida = () => {
 };
 
 const ocultarSeleccionDificultad = () => {
-  console.log(modalDificultad);
   modalDificultad.classList.add("ocultar");
 };
 
