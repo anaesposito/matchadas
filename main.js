@@ -106,16 +106,41 @@ const buscarBloqueInicial = () => {
   }
   return false;
 };
+// ---------------------INICIO ESCUCHAR CLICKS------------
+
+const escucharClicks = () => {
+  const listaDeCuadrados = document.querySelectorAll(".contenedor-gatito");
+
+  let cuadradoUno = "";
+  let cuadradoDos = "";
+
+  for (let cuadradoUno of listaDeCuadrados) {
+    cuadradoUno.onclick = (e) => {
+      console.log("primer click");
+      cuadradoUno = e.target;
+      cuadradoUno = cuadradoUno.parentElement;
+      for (let cuadradoDos of listaDeCuadrados) {
+        cuadradoDos.onclick = (event) => {
+          console.log("segundo click");
+          cuadradoDos = event.target;
+          cuadradoDos = cuadradoDos.parentElement;
+          console.log(cuadradoUno, cuadradoDos);
+        };
+      }
+    };
+  }
+  // sonAdyacentes(cuadradoUno, cuadradoDos);
+};
 
 // --------------INICIO SON ADYACENTES
-const sonAdyacentes = (cuadrado1, cuadrado2) => {
-  let nroXCuadradoUno = cuadrado1.dataset.x;
-  let nroXCuadradoDos = cuadrado2.dataset.x;
+const sonAdyacentes = (cuadradoUno, cuadradoDos) => {
+  let nroXCuadradoUno = cuadradoUno.dataset.x;
+  let nroXCuadradoDos = cuadradoDos.dataset.x;
   nroXCuadradoUno = Number(nroXCuadradoUno);
   nroXCuadradoDos = Number(nroXCuadradoDos);
 
-  let nroYCuadradoUno = cuadrado1.dataset.y;
-  let nroYCuadradoDos = cuadrado2.dataset.y;
+  let nroYCuadradoUno = cuadradoUno.dataset.y;
+  let nroYCuadradoDos = cuadradoDos.dataset.y;
   nroYCuadradoUno = Number(nroYCuadradoUno);
   nroYCuadradoDos = Number(nroYCuadradoDos);
 
@@ -239,6 +264,7 @@ const vaciarGrilla = () => {
 
 botonFacil.onclick = () => {
   inicioSinBloquesFacil();
+  escucharClicks();
 
   // ocultarSeleccionDificultad();
   // vaciarGrilla();
