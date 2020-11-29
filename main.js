@@ -113,6 +113,7 @@ const escucharClicks = () => {
 
   let cuadradoUno = "";
   let cuadradoDos = "";
+  let arrayCuadradosClickeados = [];
 
   for (let cuadradoUno of listaDeCuadrados) {
     cuadradoUno.onclick = (e) => {
@@ -124,49 +125,19 @@ const escucharClicks = () => {
           console.log("segundo click");
           cuadradoDos = event.target;
           cuadradoDos = cuadradoDos.parentElement;
+
           console.log(cuadradoUno, cuadradoDos);
+          arrayCuadradosClickeados.push(cuadradoUno, cuadradoDos);
+          console.log(arrayCuadradosClickeados);
+          return arrayCuadradosClickeados;
         };
       }
     };
   }
-  // sonAdyacentes(cuadradoUno, cuadradoDos);
+  return arrayCuadradosClickeados;
 };
 
-// --------------INICIO SON ADYACENTES
-const sonAdyacentes = (cuadradoUno, cuadradoDos) => {
-  let nroXCuadradoUno = cuadradoUno.dataset.x;
-  let nroXCuadradoDos = cuadradoDos.dataset.x;
-  nroXCuadradoUno = Number(nroXCuadradoUno);
-  nroXCuadradoDos = Number(nroXCuadradoDos);
-
-  let nroYCuadradoUno = cuadradoUno.dataset.y;
-  let nroYCuadradoDos = cuadradoDos.dataset.y;
-  nroYCuadradoUno = Number(nroYCuadradoUno);
-  nroYCuadradoDos = Number(nroYCuadradoDos);
-
-  if (nroXCuadradoUno == nroXCuadradoDos) {
-    if (
-      nroYCuadradoUno == nroYCuadradoDos + 1 ||
-      nroYCuadradoUno == nroYCuadradoDos - 1
-    ) {
-      console.log("Esto es true", nroYCuadradoUno, nroYCuadradoDos);
-      // return true;
-    }
-  }
-  if (nroYCuadradoUno == nroYCuadradoDos) {
-    if (
-      nroXCuadradoUno == nroXCuadradoDos + 1 ||
-      nroXCuadradoUno == nroXCuadradoDos - 1
-    ) {
-      console.log("Esto es true", nroYCuadradoUno, nroXCuadradoUno);
-      // return true;
-    }
-  }
-  console.log("Esto es false");
-  // return false;
-};
-///////////////////////////////////////////////////
-
+// ------------------FIN ESCUCHAR CICKS
 const crearArrayGatitos = () => {
   let array = [];
 
@@ -245,6 +216,42 @@ const crearGrillaHtml = () => {
   return grilla;
 };
 
+// --------------INICIO SON ADYACENTES
+const sonAdyacentes = (cuadradoUno, cuadradoDos) => {
+  console.log(cuadradoUno);
+  let nroXCuadradoUno = cuadradoUno.dataset.x;
+  let nroXCuadradoDos = cuadradoDos.dataset.x;
+  nroXCuadradoUno = Number(nroXCuadradoUno);
+  nroXCuadradoDos = Number(nroXCuadradoDos);
+
+  let nroYCuadradoUno = cuadradoUno.dataset.y;
+  let nroYCuadradoDos = cuadradoDos.dataset.y;
+  nroYCuadradoUno = Number(nroYCuadradoUno);
+  nroYCuadradoDos = Number(nroYCuadradoDos);
+
+  if (nroXCuadradoUno == nroXCuadradoDos) {
+    if (
+      nroYCuadradoUno == nroYCuadradoDos + 1 ||
+      nroYCuadradoUno == nroYCuadradoDos - 1
+    ) {
+      console.log("Esto es true", nroYCuadradoUno, nroYCuadradoDos);
+      // return true;
+    }
+  }
+  if (nroYCuadradoUno == nroYCuadradoDos) {
+    if (
+      nroXCuadradoUno == nroXCuadradoDos + 1 ||
+      nroXCuadradoUno == nroXCuadradoDos - 1
+    ) {
+      console.log("Esto es true", nroYCuadradoUno, nroXCuadradoUno);
+      // return true;
+    }
+  }
+  console.log("Esto es false");
+  // return false;
+};
+///////////////////////////////////////////////////
+
 // ---------------Obtener bloque de Matches
 const obtenerBloqueDeMatches = (arr) => {
   return document.querySelector(`div[data-x='${arr[0]}'][data-y='${arr[1]}']`);
@@ -264,7 +271,11 @@ const vaciarGrilla = () => {
 
 botonFacil.onclick = () => {
   inicioSinBloquesFacil();
+  // clickCuadradoUno();
   escucharClicks();
+
+  // sonAdyacentes(cuadradoUno, cuadradoDos);
+  // console.log(clickCuadradoUno(), "este es e q cuenta");
 
   // ocultarSeleccionDificultad();
   // vaciarGrilla();
@@ -323,6 +334,8 @@ let matchesVerticales = [];
 
 buscarMatches.onclick = () => {
   buscarBloques();
+  console.log(escucharClicks());
+  console.log(arrayCuadradosClickeados);
 };
 
 /**************cuenta regresiva */
