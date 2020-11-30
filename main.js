@@ -126,7 +126,8 @@ const escucharClicks = () => {
       }
     };
   }
-  sonAdyacentes(cuadrado1, cuadrado2);
+  // return cuadrado1, cuadrado2;
+  // sonAdyacentes(cuadrado1, cuadrado2);
 };
 
 // ------------------FIN ESCUCHAR CICKS
