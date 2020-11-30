@@ -110,31 +110,23 @@ const buscarBloqueInicial = () => {
 
 const escucharClicks = () => {
   const listaDeCuadrados = document.querySelectorAll(".contenedor-gatito");
-
-  let cuadradoUno = "";
-  let cuadradoDos = "";
-  let arrayCuadradosClickeados = [];
+  let cuadrado1 = "";
+  let cuadrado2 = "";
 
   for (let cuadradoUno of listaDeCuadrados) {
     cuadradoUno.onclick = (e) => {
       console.log("primer click");
-      cuadradoUno = e.target;
-      cuadradoUno = cuadradoUno.parentElement;
+      cuadrado1 = e.target;
       for (let cuadradoDos of listaDeCuadrados) {
         cuadradoDos.onclick = (event) => {
           console.log("segundo click");
-          cuadradoDos = event.target;
-          cuadradoDos = cuadradoDos.parentElement;
-
-          console.log(cuadradoUno, cuadradoDos);
-          arrayCuadradosClickeados.push(cuadradoUno, cuadradoDos);
-          console.log(arrayCuadradosClickeados);
-          return arrayCuadradosClickeados;
+          cuadrado2 = event.target;
+          return cuadrado1, cuadrado2;
         };
       }
     };
   }
-  return arrayCuadradosClickeados;
+  sonAdyacentes(cuadrado1, cuadrado2);
 };
 
 // ------------------FIN ESCUCHAR CICKS
@@ -273,8 +265,8 @@ botonFacil.onclick = () => {
   inicioSinBloquesFacil();
   // clickCuadradoUno();
   escucharClicks();
-
-  // sonAdyacentes(cuadradoUno, cuadradoDos);
+  console.log(escucharClicks());
+  console.log(sonAdyacentes(cuadrado1, cuadrado2));
   // console.log(clickCuadradoUno(), "este es e q cuenta");
 
   // ocultarSeleccionDificultad();
