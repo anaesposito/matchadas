@@ -10,7 +10,9 @@ const contenedorBotonMedio = document.getElementById("contenedor-boton-medio");
 const contenedorBotonDificil = document.getElementById(
   "contenedor-boton-dificil"
 );
+const gatitosSeleccionados = document.querySelectorAll(".seleccionado");
 
+let primerGatoClickeado = "";
 //----------------------------- inicio sin bloques
 const inicioSinBloquesFacil = () => {
   do {
@@ -108,29 +110,28 @@ const buscarBloqueInicial = () => {
 };
 // ---------------------INICIO ESCUCHAR CLICKS------------
 
-const escucharClicks = () => {
-  const listaDeCuadrados = document.querySelectorAll(".contenedor-gatito");
-  let cuadrado1 = "";
-  let cuadrado2 = "";
+// const escucharClicks = () => {
+//   const listaDeCuadrados = document.querySelectorAll(".contenedor-gatito");
+//   let cuadrado1 = "";
+//   let cuadrado2 = "";
 
-  for (let cuadradoUno of listaDeCuadrados) {
-    cuadradoUno.onclick = (e) => {
-      console.log("primer click");
-      cuadrado1 = e.target;
-      for (let cuadradoDos of listaDeCuadrados) {
-        cuadradoDos.onclick = (event) => {
-          console.log("segundo click");
-          cuadrado2 = event.target;
-          return cuadrado1, cuadrado2;
-        };
-      }
-    };
-  }
-  // return cuadrado1, cuadrado2;
-  // sonAdyacentes(cuadrado1, cuadrado2);
-};
+//   for (let cuadradoUno of listaDeCuadrados) {
+//     cuadradoUno.onclick = (e) => {
+//       console.log("primer click");
+//       cuadrado1 = e.target;
+//       for (let cuadradoDos of listaDeCuadrados) {
+//         cuadradoDos.onclick = (event) => {
+//           console.log("segundo click");
+//           cuadrado2 = event.target;
+//        };
+//       }
+//     };
+//   }
+//   // return cuadrado1, cuadrado2;
+//   // sonAdyacentes(cuadrado1, cuadrado2);
+// };
 
-// ------------------FIN ESCUCHAR CICKS
+// ------------------FIN ESCUCHAR CICKSs
 const crearArrayGatitos = () => {
   let array = [];
 
@@ -168,25 +169,58 @@ const obtenerNumeroAlAzar = (items) => {
 const obtenerGatitoAlAzar = (items) => {
   return items[obtenerNumeroAlAzar(items)];
 };
+
+const onClickHandler = (e) => {
+  console.log("primer gato clickeado", primerGatoClickeado);
+  let gatitoClickeado = e.target.parentElement;
+
+  if (!gatitoClickeado.className.includes("seleccionado")) {
+    console.log("gatitoclickeado", gatitoClickeado);
+    if (!esIgualAlPrimerGato(gatitoClickeado)) {
+      console.log(!esIgualAlPrimerGato, "no es igual al primero");
+
+      primerGatoClickeado = e.target.parentElement;
+    }
+    gatitoClickeado.classList.add("seleccionado");
+
+    if (sonAdyacentes(primerGatoClickeado, gatitoClickeado)) {
+      console.log("sonAdyacentes");
+      primerGatoClickeado = null;
+    }
+    // } else {
+    //   gatitoClickeado.className.includes("seleccionado");
+    //   console.log(primerGatoClickeado, "gatito1");
+
+    //   console.log(gatitoClickeado, "gatito2");
+    // }
+  }
+};
+const esIgualAlPrimerGato = (gato) => {
+  if (primerGatoClickeado) {
+    return primerGatoClickeado.dataset.id === gato.dataset.id;
+  }
+  return false;
+};
+
 const crearDivGatito = (x, y) => {
   const divGatito = document.createElement("div");
+  divGatito.addEventListener("click", onClickHandler);
   divGatito.dataset.x = x;
   divGatito.dataset.y = y;
-
+  divGatito.dataset.id = `${x + y}`;
   let img = document.createElement("img");
   img.src = listaDeGatitos[x][y];
   img.classList.add("imagen-gatito");
-
   divGatito.appendChild(img);
-
   divGatito.style.top = `${x * tamanio}px`;
   divGatito.style.left = `${y * tamanio}px`;
   divGatito.className = "contenedor-gatito";
+
   return divGatito;
 };
 
 const crearGrilla = (ancho, alto) => {
-  const anchoDeGrilla = 80 * ancho;
+  const anchoDeGrilla = 50 * ancho;
   grilla.style.width = `${anchoDeGrilla}px`;
 
   for (let i = 0; i < ancho; i++) {
@@ -211,7 +245,9 @@ const crearGrillaHtml = () => {
 
 // --------------INICIO SON ADYACENTES
 const sonAdyacentes = (cuadradoUno, cuadradoDos) => {
-  console.log(cuadradoUno);
+  console.log(cuadradoUno, "cuadradoUNO SonAdyacentes");
+  console.log(cuadradoDos, "cuadradoDOS SonAdyacentes");
+
   let nroXCuadradoUno = cuadradoUno.dataset.x;
   let nroXCuadradoDos = cuadradoDos.dataset.x;
   nroXCuadradoUno = Number(nroXCuadradoUno);
@@ -265,9 +301,9 @@ const vaciarGrilla = () => {
 botonFacil.onclick = () => {
   inicioSinBloquesFacil();
   // clickCuadradoUno();
-  escucharClicks();
-  console.log(escucharClicks());
-  console.log(sonAdyacentes(cuadrado1, cuadrado2));
+  // escucharClicks();
+  // console.log(escucharClicks());
+  // console.log(sonAdyacentes(cuadrado1, cuadrado2));
   // console.log(clickCuadradoUno(), "este es e q cuenta");
 
   // ocultarSeleccionDificultad();
