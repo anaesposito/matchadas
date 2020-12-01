@@ -12,7 +12,7 @@
 <body>
 
     <!-- <button id="nuevo-juego">Nuevo Juego</button> -->
-    <button id="reiniciar-juego">Reiniciar Juego</button>
+    <!-- <button id="reiniciar-juego">Reiniciar Juego</button> -->
     <!-- <button id="facil" class="ocultar">Facil</button>
     <button id="medio" class="ocultar">Medio</button>
     <button id="dificil" class="ocultar">Dificil</button> -->
@@ -99,6 +99,24 @@
             </div>
         </div>
     </div>
+
+
+    <div class="modal-juegoTerminado modal">
+        <div class="modal-background"></div>
+        <div id="modal-tarjeta " class="modal-card">
+            <header class="modal-card-head">
+                <h1 class="modal-card-title">¡Juego terminado!</h1>
+                <button class="delete" aria-label="close"></button>
+            </header>
+            <section id="texto-juegoTerminado" class="modal-card-body">
+                <p>Puntaje final: <span>000</span> </p>
+            </section>
+            <footer class="modal-card-foot">
+                <button id="nuevo-juego" class="button is-primary">Nuevo Juego</button>
+                <button id="reiniciar-juego" class="button is-primary">Reiniciar</button>
+            </footer>
+        </div>
+    </div> 
 
     <!-- FIN MODALES -->
 

@@ -288,11 +288,17 @@ reiniciarJuego.onclick = () => {
   clickeable();
   vaciarGrilla();
   if (reiniciarJuego.classList.contains("facil")) {
+    cuentaRegresiva();
     inicioSinBloquesFacil();
+    mostrarJuegoTerminado();
   } else if (reiniciarJuego.classList.contains("medio")) {
     inicioSinBloquesMedio();
+    mostrarJuegoTerminado();
+    cuentaRegresiva()
   } else if (reiniciarJuego.classList.contains("dificil")) {
     inicioSinBloquesDificil();
+    mostrarJuegoTerminado();
+    cuentaRegresiva()
   }
 };
 let matchesHorizontales = [];
@@ -311,10 +317,24 @@ const cuentaRegresiva = () => {
     tiempo--;
     setTimeout(cuentaRegresiva, 1000);
   } else {
-    alert("juego terminado");
-    //creo que aca deberia ir la funcion que abre el modal de juego terminado
+    tiempo = 30;
+    mostrarJuegoTerminado();
   }
 };
+
+ 
+
+//ahora ya podria usar la misma funcion creo y eliminar la segunda
+//  const reiniciarTiempo = () => {
+//    tiempoHtml.innerHTML = `0 : ${tiempo}`;
+//    if (tiempo > 0) {
+//      tiempo--;
+//      setTimeout(reiniciarTiempo, 1000);
+//    }else {
+//        tiempo = 30
+//      mostrarJuegoTerminado();
+//    }
+//  };
 
 // ------------------------------------INICIO MODALES
 const modalBienvenida = document.querySelector("#contenedor-modal-bienvenida");
@@ -322,6 +342,8 @@ const AJugar = document.getElementById("boton-jugar");
 const botonCruz = document.querySelector(".delete");
 const modalDificultad = document.querySelector("#contenedor-modal-dificultad");
 const botonCerrarDificultad = document.querySelector("#cerrar-dificultad");
+const modalJuegoTerminado = document.querySelector(".modal-juegoTerminado");
+const botonNuevoJuego = document.getElementById("nuevo-juego");
 
 const ocultarBienvenida = () => {
   modalBienvenida.classList.add("ocultar");
@@ -335,6 +357,13 @@ AJugar.onclick = () => {
   ocultarBienvenida();
 };
 
+const mostrarJuegoTerminado = () => {
+  modalJuegoTerminado.classList.toggle("is-active");
+};
+
+botonCruz.onclick = () => {
+  ocultarJuegoTerminado();
+};
 // botonCerrarDificultad.onclick = () => {
 //   ocultarSeleccionDificultad();
 // };
