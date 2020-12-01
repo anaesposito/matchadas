@@ -2,7 +2,6 @@ const grilla = document.querySelector(".grilla");
 const botonFacil = document.getElementById("facil");
 const botonMedio = document.getElementById("medio");
 const botonDificil = document.getElementById("dificil");
-// const nuevoJuego = document.getElementById("nuevo-juego");
 const reiniciarJuego = document.getElementById("reiniciar-juego");
 const buscarMatches = document.getElementById("buscar-matches");
 const contenedorBotonFacil = document.getElementById("contenedor-boton-facil");
@@ -12,7 +11,7 @@ const contenedorBotonDificil = document.getElementById(
 );
 const gatitosSeleccionados = document.querySelectorAll(".seleccionado");
 
-let primerGatoClickeado = "";
+let gatitoGuardadoEnClickAnterior = null;
 //----------------------------- inicio sin bloques
 const inicioSinBloquesFacil = () => {
   do {
@@ -108,30 +107,8 @@ const buscarBloqueInicial = () => {
   }
   return false;
 };
-// ---------------------INICIO ESCUCHAR CLICKS------------
 
-// const escucharClicks = () => {
-//   const listaDeCuadrados = document.querySelectorAll(".contenedor-gatito");
-//   let cuadrado1 = "";
-//   let cuadrado2 = "";
-
-//   for (let cuadradoUno of listaDeCuadrados) {
-//     cuadradoUno.onclick = (e) => {
-//       console.log("primer click");
-//       cuadrado1 = e.target;
-//       for (let cuadradoDos of listaDeCuadrados) {
-//         cuadradoDos.onclick = (event) => {
-//           console.log("segundo click");
-//           cuadrado2 = event.target;
-//        };
-//       }
-//     };
-//   }
-//   // return cuadrado1, cuadrado2;
-//   // sonAdyacentes(cuadrado1, cuadrado2);
-// };
-
-// ------------------FIN ESCUCHAR CICKSs
+// ---------------------------Crear Array de Img Gatio------------
 const crearArrayGatitos = () => {
   let array = [];
 
@@ -169,35 +146,52 @@ const obtenerNumeroAlAzar = (items) => {
 const obtenerGatitoAlAzar = (items) => {
   return items[obtenerNumeroAlAzar(items)];
 };
+// ---------------------------Inicio Escuchas Clicks-----------
+const borrarSeleccion = (primerGato, segundoGato) => {
+  primerGato.classList.remove("seleccionado");
+  segundoGato.classList.remove("seleccionado");
+};
 
+const cruzarGatitos = (primerGato, segundoGato) => {
+  //llamo a esta funcion cuando se seleccionaron adyancentes!
+  // la uso para cruzar los gatitos despues
+  gatitoGuardadoEnClickAnterior = null;
+};
 const onClickHandler = (e) => {
-  console.log("primer gato clickeado", primerGatoClickeado);
-  let gatitoClickeado = e.target.parentElement;
+  let gatitoClickeado = e.target;
+  if (gatitoClickeado.nodeName === "IMG") {
+    gatitoClickeado = gatitoClickeado.parentElement;
+  }
 
   if (!gatitoClickeado.className.includes("seleccionado")) {
     console.log("gatitoclickeado", gatitoClickeado);
-    if (!esIgualAlPrimerGato(gatitoClickeado)) {
-      console.log(!esIgualAlPrimerGato, "no es igual al primero");
+    gatitoClickeado.classList.add("seleccionado"); // si no está seleccionado lo selecciono.
 
-      primerGatoClickeado = e.target.parentElement;
+    if (
+      gatitoGuardadoEnClickAnterior &&
+      !esIgualAlPrimerGato(gatitoClickeado)
+    ) {
+      // valido si es igual al anteriormente seleccionado
+      // console.log("No es igual al primero");
+
+      borrarSeleccion(gatitoGuardadoEnClickAnterior, gatitoClickeado);
+
+      if (sonAdyacentes(gatitoGuardadoEnClickAnterior, gatitoClickeado)) {
+        console.log("son Adyacentes!!!!!!!!!!!!!!!!!!!!!!!!!");
+        cruzarGatitos(gatitoGuardadoEnClickAnterior, gatitoClickeado);
+      } else {
+        // no son adyacentes!!!
+        gatitoGuardadoEnClickAnterior = gatitoClickeado;
+      }
+    } else {
+      gatitoGuardadoEnClickAnterior = gatitoClickeado;
     }
-    gatitoClickeado.classList.add("seleccionado");
-
-    if (sonAdyacentes(primerGatoClickeado, gatitoClickeado)) {
-      console.log("sonAdyacentes");
-      primerGatoClickeado = null;
-    }
-    // } else {
-    //   gatitoClickeado.className.includes("seleccionado");
-    //   console.log(primerGatoClickeado, "gatito1");
-
-    //   console.log(gatitoClickeado, "gatito2");
-    // }
   }
 };
+
 const esIgualAlPrimerGato = (gato) => {
-  if (primerGatoClickeado) {
-    return primerGatoClickeado.dataset.id === gato.dataset.id;
+  if (gatitoGuardadoEnClickAnterior) {
+    return gatitoGuardadoEnClickAnterior.dataset.id === gato.dataset.id;
   }
   return false;
 };
@@ -302,39 +296,20 @@ botonFacil.onclick = () => {
   inicioSinBloquesFacil();
   // clickCuadradoUno();
   // escucharClicks();
-  // console.log(escucharClicks());
-  // console.log(sonAdyacentes(cuadrado1, cuadrado2));
-  // console.log(clickCuadradoUno(), "este es e q cuenta");
 
-  // ocultarSeleccionDificultad();
-  // vaciarGrilla();
-  // crearGrilla(6, 6);
-  // crearGrillaHtml();
-  // ocultarBotones();
   reiniciarJuego.classList.add("facil");
-  // clickeable();
 };
 
 botonMedio.onclick = () => {
   inicioSinBloquesMedio();
-  // ocultarSeleccionDificultad();
-  // vaciarGrilla();
-  // crearGrilla(8, 8);
-  // crearGrillaHtml();
-  // ocultarBotones();
+
   reiniciarJuego.classList.add("medio");
-  // clickeable();
 };
 
 botonDificil.onclick = () => {
   inicioSinBloquesDificil();
-  // ocultarSeleccionDificultad();
-  // vaciarGrilla();
-  // crearGrilla(10, 10);
-  // crearGrillaHtml();
-  // ocultarBotones();
+
   reiniciarJuego.classList.add("dificil");
-  // clickeable();
 };
 
 // AJugar.onclick = () => {
