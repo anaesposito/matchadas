@@ -199,40 +199,41 @@ const cruzarGatitos = (primerGato, segundoGato) => {
   gatitoGuardadoEnClickAnterior = null;
 };
 const onClickHandler = (e) => {
+  // console.log("primer gato clickeado: ", gatitoGuardadoEnClickAnterior);
+
   let gatitoClickeado = e.target;
+
   if (gatitoClickeado.nodeName === "IMG") {
-    //solo tomo al div y a la imagen, para no tomar grilla
     gatitoClickeado = gatitoClickeado.parentElement;
   }
 
   if (!gatitoClickeado.className.includes("seleccionado")) {
-    //si no lo seleccione antes lo selecciono
-    console.log("gatitoclickeado", gatitoClickeado);
-    gatitoClickeado.classList.add("seleccionado"); //
-
+    // console.log("gatitoclickeado", gatitoClickeado);
+    gatitoClickeado.classList.add("seleccionado"); // si no está seleccionado lo selecciono.
+    console.log(gatitoGuardadoEnClickAnterior);
     if (
       gatitoGuardadoEnClickAnterior &&
       !esIgualAlPrimerGato(gatitoClickeado)
     ) {
-      // valido si es igual al anteriormente seleccionado y como no es igual, le borro la class
+      // valido si es igual al anteriormente seleccionado
       // console.log("No es igual al primero");
 
       borrarSeleccion(gatitoGuardadoEnClickAnterior, gatitoClickeado);
 
       if (sonAdyacentes(gatitoGuardadoEnClickAnterior, gatitoClickeado)) {
-        console.log("son Adyacentes!!!!!!!!");
+        // console.log("son Adyacentes!!!!!!!!!!!!!!!!!!!!!!!!!");
         cruzarGatitos(gatitoGuardadoEnClickAnterior, gatitoClickeado);
       } else {
         // no son adyacentes!!!
         gatitoGuardadoEnClickAnterior = gatitoClickeado;
+        gatitoClickeado.classList.add("seleccionado"); // este lo dejo para cuando no son
+        // adyacentes y sigo seleccionando
       }
     } else {
-      //el primer click esta vacio ->
       gatitoGuardadoEnClickAnterior = gatitoClickeado;
     }
   }
 };
-
 const esIgualAlPrimerGato = (gato) => {
   if (gatitoGuardadoEnClickAnterior) {
     return gatitoGuardadoEnClickAnterior.dataset.id === gato.dataset.id;
@@ -242,8 +243,8 @@ const esIgualAlPrimerGato = (gato) => {
 
 // --------------INICIO SON ADYACENTES
 const sonAdyacentes = (cuadradoUno, cuadradoDos) => {
-  console.log(cuadradoUno, "cuadradoUNO SonAdyacentes");
-  console.log(cuadradoDos, "cuadradoDOS SonAdyacentes");
+  // console.log(cuadradoUno, "cuadradoUNO SonAdyacentes");
+  // console.log(cuadradoDos, "cuadradoDOS SonAdyacentes");
   if (cuadradoUno) {
     let nroXCuadradoUno = cuadradoUno.dataset.x;
     let nroXCuadradoDos = cuadradoDos.dataset.x;
@@ -386,5 +387,3 @@ AJugar.onclick = () => {
 // botonCerrarDificultad.onclick = () => {
 //   ocultarSeleccionDificultad();
 // };
-
-// ------------------------------------FIN MODALES
