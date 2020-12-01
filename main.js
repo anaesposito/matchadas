@@ -19,7 +19,6 @@ const inicioSinBloquesFacil = () => {
     crearGrilla(6, 6);
     crearGrillaHtml();
     clickeable();
-    cuentaRegresiva()
   } while (buscarBloqueInicial());
 };
 
@@ -240,6 +239,7 @@ const vaciarGrilla = () => {
 
 botonFacil.onclick = () => {
   inicioSinBloquesFacil();
+  cuentaRegresiva();
 
   // ocultarSeleccionDificultad();
   // vaciarGrilla();
@@ -252,6 +252,7 @@ botonFacil.onclick = () => {
 
 botonMedio.onclick = () => {
   inicioSinBloquesMedio();
+  cuentaRegresiva();
   // ocultarSeleccionDificultad();
   // vaciarGrilla();
   // crearGrilla(8, 8);
@@ -263,6 +264,7 @@ botonMedio.onclick = () => {
 
 botonDificil.onclick = () => {
   inicioSinBloquesDificil();
+  cuentaRegresiva();
   // ocultarSeleccionDificultad();
   // vaciarGrilla();
   // crearGrilla(10, 10);
@@ -303,15 +305,14 @@ buscarMatches.onclick = () => {
 /**************cuenta regresiva */
 let tiempo = 30;
 const tiempoHtml = document.getElementById("tiempo");
-console.log(tiempoHtml);
 const cuentaRegresiva = () => {
-  tiempoHtml.innerHTML = `0:${tiempo}`;
-  if (tiempo >= 0) {
-    tiempo--
-    setTimeout("cuentaRegresiva()", 1000);
+  tiempoHtml.innerHTML = `0 : ${tiempo}`;
+  if (tiempo > 0) {
+    tiempo--;
+    setTimeout(cuentaRegresiva, 1000);
   } else {
-    alert("termino el juego")
-    //aca deberia ir la funcion que abre el modal de juego terminado
+    alert("juego terminado");
+    //creo que aca deberia ir la funcion que abre el modal de juego terminado
   }
 };
 
