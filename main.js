@@ -201,18 +201,20 @@ const cruzarGatitos = (primerGato, segundoGato) => {
 const onClickHandler = (e) => {
   let gatitoClickeado = e.target;
   if (gatitoClickeado.nodeName === "IMG") {
+    //solo tomo al div y a la imagen, para no tomar grilla
     gatitoClickeado = gatitoClickeado.parentElement;
   }
 
   if (!gatitoClickeado.className.includes("seleccionado")) {
+    //si no lo seleccione antes lo selecciono
     console.log("gatitoclickeado", gatitoClickeado);
-    gatitoClickeado.classList.add("seleccionado"); // si no está seleccionado lo selecciono.
+    gatitoClickeado.classList.add("seleccionado"); //
 
     if (
       gatitoGuardadoEnClickAnterior &&
       !esIgualAlPrimerGato(gatitoClickeado)
     ) {
-      // valido si es igual al anteriormente seleccionado
+      // valido si es igual al anteriormente seleccionado y como no es igual, le borro la class
       // console.log("No es igual al primero");
 
       borrarSeleccion(gatitoGuardadoEnClickAnterior, gatitoClickeado);
