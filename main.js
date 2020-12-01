@@ -11,6 +11,104 @@ const contenedorBotonDificil = document.getElementById(
   "contenedor-boton-dificil"
 );
 
+//----------------------------- inicio sin bloques
+const inicioSinBloquesFacil = () => {
+  do {
+    ocultarSeleccionDificultad();
+    vaciarGrilla();
+    crearGrilla(6, 6);
+    crearGrillaHtml();
+    clickeable();
+    cuentaRegresiva()
+  } while (buscarBloqueInicial());
+};
+
+const inicioSinBloquesMedio = () => {
+  do {
+    ocultarSeleccionDificultad();
+    vaciarGrilla();
+    crearGrilla(8, 8);
+    crearGrillaHtml();
+    clickeable();
+  } while (buscarBloqueInicial());
+};
+
+const inicioSinBloquesDificil = () => {
+  do {
+    ocultarSeleccionDificultad();
+    vaciarGrilla();
+    crearGrilla(10, 10);
+    crearGrillaHtml();
+    clickeable();
+  } while (buscarBloqueInicial());
+};
+
+// ------------------ recorrer matches y colorearlos------------
+const colorearMatches = () => {
+  for (let i = 0; i < matchesHorizontales.length; i++) {
+    obtenerBloqueDeMatches(matchesHorizontales[i]).style.backgroundColor =
+      "yellow";
+  }
+  for (let i = 0; i < matchesVerticales.length; i++) {
+    obtenerBloqueDeMatches(matchesVerticales[i]).style.backgroundColor =
+      "orange";
+  }
+  if (!matchesHorizontales.length && !matchesVerticales.length) {
+    alert("No hay matches :(");
+  }
+};
+// ---------------------------INICIO BUSCAR BLOQUES AL CARGAR
+const buscarBloques = () => {
+  for (let i = 0; i < listaDeGatitos.length; i++) {
+    for (let j = 0; j < listaDeGatitos[i].length; j++) {
+      if (
+        listaDeGatitos[i][j] === listaDeGatitos[i][j + 1] &&
+        listaDeGatitos[i][j + 1] === listaDeGatitos[i][j + 2]
+      ) {
+        matchesHorizontales.push([i, j]);
+        matchesHorizontales.push([i, j + 1]);
+        matchesHorizontales.push([i, j + 2]);
+      }
+      if (
+        listaDeGatitos[i + 1] &&
+        listaDeGatitos[i + 2] &&
+        listaDeGatitos[i][j] === listaDeGatitos[i + 1][j] &&
+        listaDeGatitos[i][j] === listaDeGatitos[i + 2][j]
+      ) {
+        matchesVerticales.push([i, j]);
+        matchesVerticales.push([i + 1, j]);
+        matchesVerticales.push([i + 2, j]);
+      }
+    }
+  }
+  colorearMatches();
+};
+
+// -------------------------BUSCAR BLOQUE INICIAL------------------
+
+const buscarBloqueInicial = () => {
+  for (let i = 0; i < listaDeGatitos.length; i++) {
+    for (let j = 0; j < listaDeGatitos[i].length; j++) {
+      if (
+        listaDeGatitos[i][j] === listaDeGatitos[i][j + 1] &&
+        listaDeGatitos[i][j + 1] === listaDeGatitos[i][j + 2]
+      ) {
+        return true;
+      }
+      if (
+        listaDeGatitos[i + 1] &&
+        listaDeGatitos[i + 2] &&
+        listaDeGatitos[i][j] === listaDeGatitos[i + 1][j] &&
+        listaDeGatitos[i][j] === listaDeGatitos[i + 2][j]
+      ) {
+        return true;
+      }
+    }
+  }
+  return false;
+};
+
+// --------------INICIO SON ADYACENTES
 const sonAdyacentes = (cuadrado1, cuadrado2) => {
   let nroXCuadradoUno = cuadrado1.dataset.x;
   let nroXCuadradoDos = cuadrado2.dataset.x;
@@ -141,36 +239,37 @@ const vaciarGrilla = () => {
 };
 
 botonFacil.onclick = () => {
-  ocultarSeleccionDificultad();
-  vaciarGrilla();
-  crearGrilla(6, 6);
-  crearGrillaHtml();
-  cuentaRegresiva()
+  inicioSinBloquesFacil();
+
+  // ocultarSeleccionDificultad();
+  // vaciarGrilla();
+  // crearGrilla(6, 6);
+  // crearGrillaHtml();
   // ocultarBotones();
-  // reiniciarJuego.classList.add("facil");
-  clickeable();
+  reiniciarJuego.classList.add("facil");
+  // clickeable();
 };
 
 botonMedio.onclick = () => {
-  ocultarSeleccionDificultad();
-  vaciarGrilla();
-  crearGrilla(8, 8);
-  crearGrillaHtml();
-  cuentaRegresiva()
+  inicioSinBloquesMedio();
+  // ocultarSeleccionDificultad();
+  // vaciarGrilla();
+  // crearGrilla(8, 8);
+  // crearGrillaHtml();
   // ocultarBotones();
-  // reiniciarJuego.classList.add("medio");
-  clickeable();
+  reiniciarJuego.classList.add("medio");
+  // clickeable();
 };
 
 botonDificil.onclick = () => {
-  ocultarSeleccionDificultad();
-  vaciarGrilla();
-  crearGrilla(10, 10);
-  crearGrillaHtml();
-  cuentaRegresiva()
+  inicioSinBloquesDificil();
+  // ocultarSeleccionDificultad();
+  // vaciarGrilla();
+  // crearGrilla(10, 10);
+  // crearGrillaHtml();
   // ocultarBotones();
-  // reiniciarJuego.classList.add("dificil");
-  clickeable();
+  reiniciarJuego.classList.add("dificil");
+  // clickeable();
 };
 
 // AJugar.onclick = () => {
@@ -183,74 +282,36 @@ botonDificil.onclick = () => {
 //   reiniciarJuego.classList.remove("dificil");
 // };
 
-// reiniciarJuego.onclick = () => {
-//   clickeable();
-//   vaciarGrilla();
-//   if (reiniciarJuego.classList.contains("facil")) {
-//     crearGrilla(6, 6);
-//     crearGrillaHtml();
-//   } else if (reiniciarJuego.classList.contains("medio")) {
-//     crearGrilla(8, 8);
-//     crearGrillaHtml();
-//   } else if (reiniciarJuego.classList.contains("dificil")) {
-//     crearGrilla(10, 10);
-//     crearGrillaHtml();
-//   }
-// };
+reiniciarJuego.onclick = () => {
+  clickeable();
+  vaciarGrilla();
+  if (reiniciarJuego.classList.contains("facil")) {
+    inicioSinBloquesFacil();
+  } else if (reiniciarJuego.classList.contains("medio")) {
+    inicioSinBloquesMedio();
+  } else if (reiniciarJuego.classList.contains("dificil")) {
+    inicioSinBloquesDificil();
+  }
+};
 let matchesHorizontales = [];
 let matchesVerticales = [];
 
 buscarMatches.onclick = () => {
-  for (let i = 0; i < listaDeGatitos.length; i++) {
-    for (let j = 0; j < listaDeGatitos[i].length; j++) {
-      if (
-        listaDeGatitos[i][j] === listaDeGatitos[i][j + 1] &&
-        listaDeGatitos[i][j + 1] === listaDeGatitos[i][j + 2]
-      ) {
-        matchesHorizontales.push([i, j]);
-        matchesHorizontales.push([i, j + 1]);
-        matchesHorizontales.push([i, j + 2]);
-      }
-      if (
-        listaDeGatitos[i + 1] &&
-        listaDeGatitos[i + 2] &&
-        listaDeGatitos[i][j] === listaDeGatitos[i + 1][j] &&
-        listaDeGatitos[i][j] === listaDeGatitos[i + 2][j]
-      ) {
-        matchesVerticales.push([i, j]);
-        matchesVerticales.push([i + 1, j]);
-        matchesVerticales.push([i + 2, j]);
-      }
-    }
-  }
-
-  colorearMatches();
-};
-
-// ------------------ recorrer matches------------
-const colorearMatches = () => {
-  for (let i = 0; i < matchesHorizontales.length; i++) {
-    obtenerBloqueDeMatches(matchesHorizontales[i]).style.backgroundColor =
-      "yellow";
-  }
-  for (let i = 0; i < matchesVerticales.length; i++) {
-    obtenerBloqueDeMatches(matchesVerticales[i]).style.backgroundColor =
-      "orange";
-  }
-  if (!matchesHorizontales.length && !matchesVerticales.length) {
-    alert("No hay matches :(");
-  }
+  buscarBloques();
 };
 
 /**************cuenta regresiva */
 let tiempo = 30;
 const tiempoHtml = document.getElementById("tiempo");
+console.log(tiempoHtml);
 const cuentaRegresiva = () => {
   tiempoHtml.innerHTML = `0:${tiempo}`;
-  if (tiempo <= 0) {
-  } else {
-    tiempo -= 1;
+  if (tiempo >= 0) {
+    tiempo--
     setTimeout("cuentaRegresiva()", 1000);
+  } else {
+    alert("termino el juego")
+    //aca deberia ir la funcion que abre el modal de juego terminado
   }
 };
 
@@ -259,6 +320,7 @@ const modalBienvenida = document.querySelector("#contenedor-modal-bienvenida");
 const AJugar = document.getElementById("boton-jugar");
 const botonCruz = document.querySelector(".delete");
 const modalDificultad = document.querySelector("#contenedor-modal-dificultad");
+const botonCerrarDificultad = document.querySelector("#cerrar-dificultad");
 
 const ocultarBienvenida = () => {
   modalBienvenida.classList.add("ocultar");
@@ -268,16 +330,12 @@ const ocultarSeleccionDificultad = () => {
   modalDificultad.classList.add("ocultar");
 };
 
-const comenzarAJugar = () => {
-  AJugar.onclick = () => {
-    ocultarBienvenida();
-  };
-  botonCruz.onclick = () => {
-    ocultarBienvenida();
-    ocultarSeleccionDificultad();
-  };
+AJugar.onclick = () => {
+  ocultarBienvenida();
 };
 
-comenzarAJugar();
+// botonCerrarDificultad.onclick = () => {
+//   ocultarSeleccionDificultad();
+// };
 
 // ------------------------------------FIN MODALES
