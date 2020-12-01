@@ -131,7 +131,7 @@ const clickeable = () => {
   }
 };
 
-//-----------------------------------------
+//-------------------------------INICIO CREACION DE GRILLA JS Y HTML----------
 let tamanio = 80;
 let items = crearArrayGatitos();
 
@@ -145,55 +145,6 @@ const obtenerNumeroAlAzar = (items) => {
 };
 const obtenerGatitoAlAzar = (items) => {
   return items[obtenerNumeroAlAzar(items)];
-};
-// ---------------------------Inicio Escuchas Clicks-----------
-const borrarSeleccion = (primerGato, segundoGato) => {
-  primerGato.classList.remove("seleccionado");
-  segundoGato.classList.remove("seleccionado");
-};
-
-const cruzarGatitos = (primerGato, segundoGato) => {
-  //llamo a esta funcion cuando se seleccionaron adyancentes!
-  // la uso para cruzar los gatitos despues
-  gatitoGuardadoEnClickAnterior = null;
-};
-const onClickHandler = (e) => {
-  let gatitoClickeado = e.target;
-  if (gatitoClickeado.nodeName === "IMG") {
-    gatitoClickeado = gatitoClickeado.parentElement;
-  }
-
-  if (!gatitoClickeado.className.includes("seleccionado")) {
-    console.log("gatitoclickeado", gatitoClickeado);
-    gatitoClickeado.classList.add("seleccionado"); // si no está seleccionado lo selecciono.
-
-    if (
-      gatitoGuardadoEnClickAnterior &&
-      !esIgualAlPrimerGato(gatitoClickeado)
-    ) {
-      // valido si es igual al anteriormente seleccionado
-      // console.log("No es igual al primero");
-
-      borrarSeleccion(gatitoGuardadoEnClickAnterior, gatitoClickeado);
-
-      if (sonAdyacentes(gatitoGuardadoEnClickAnterior, gatitoClickeado)) {
-        console.log("son Adyacentes!!!!!!!!!!!!!!!!!!!!!!!!!");
-        cruzarGatitos(gatitoGuardadoEnClickAnterior, gatitoClickeado);
-      } else {
-        // no son adyacentes!!!
-        gatitoGuardadoEnClickAnterior = gatitoClickeado;
-      }
-    } else {
-      gatitoGuardadoEnClickAnterior = gatitoClickeado;
-    }
-  }
-};
-
-const esIgualAlPrimerGato = (gato) => {
-  if (gatitoGuardadoEnClickAnterior) {
-    return gatitoGuardadoEnClickAnterior.dataset.id === gato.dataset.id;
-  }
-  return false;
 };
 
 const crearDivGatito = (x, y) => {
@@ -236,41 +187,97 @@ const crearGrillaHtml = () => {
 
   return grilla;
 };
+// ---------------------------Inicio Escuchar Clicks-----------
+const borrarSeleccion = (primerGato, segundoGato) => {
+  primerGato.classList.remove("seleccionado");
+  segundoGato.classList.remove("seleccionado");
+};
+
+const cruzarGatitos = (primerGato, segundoGato) => {
+  //llamo a esta funcion cuando se seleccionaron adyancentes!
+  // la uso para cruzar los gatitos despues
+  gatitoGuardadoEnClickAnterior = null;
+};
+const onClickHandler = (e) => {
+  let gatitoClickeado = e.target;
+  if (gatitoClickeado.nodeName === "IMG") {
+    gatitoClickeado = gatitoClickeado.parentElement;
+  }
+
+  if (!gatitoClickeado.className.includes("seleccionado")) {
+    console.log("gatitoclickeado", gatitoClickeado);
+    gatitoClickeado.classList.add("seleccionado"); // si no está seleccionado lo selecciono.
+
+    if (
+      gatitoGuardadoEnClickAnterior &&
+      !esIgualAlPrimerGato(gatitoClickeado)
+    ) {
+      // valido si es igual al anteriormente seleccionado
+      // console.log("No es igual al primero");
+
+      borrarSeleccion(gatitoGuardadoEnClickAnterior, gatitoClickeado);
+
+      if (sonAdyacentes(gatitoGuardadoEnClickAnterior, gatitoClickeado)) {
+        console.log("son Adyacentes!!!!!!!!");
+        cruzarGatitos(gatitoGuardadoEnClickAnterior, gatitoClickeado);
+      } else {
+        // no son adyacentes!!!
+        gatitoGuardadoEnClickAnterior = gatitoClickeado;
+      }
+    } else {
+      //el primer click esta vacio ->
+      gatitoGuardadoEnClickAnterior = gatitoClickeado;
+    }
+  }
+};
+
+const esIgualAlPrimerGato = (gato) => {
+  if (gatitoGuardadoEnClickAnterior) {
+    return gatitoGuardadoEnClickAnterior.dataset.id === gato.dataset.id;
+  }
+  return false;
+};
 
 // --------------INICIO SON ADYACENTES
 const sonAdyacentes = (cuadradoUno, cuadradoDos) => {
   console.log(cuadradoUno, "cuadradoUNO SonAdyacentes");
   console.log(cuadradoDos, "cuadradoDOS SonAdyacentes");
+  if (cuadradoUno) {
+    let nroXCuadradoUno = cuadradoUno.dataset.x;
+    let nroXCuadradoDos = cuadradoDos.dataset.x;
+    nroXCuadradoUno = Number(nroXCuadradoUno);
+    nroXCuadradoDos = Number(nroXCuadradoDos);
 
-  let nroXCuadradoUno = cuadradoUno.dataset.x;
-  let nroXCuadradoDos = cuadradoDos.dataset.x;
-  nroXCuadradoUno = Number(nroXCuadradoUno);
-  nroXCuadradoDos = Number(nroXCuadradoDos);
+    let nroYCuadradoUno = cuadradoUno.dataset.y;
+    let nroYCuadradoDos = cuadradoDos.dataset.y;
+    nroYCuadradoUno = Number(nroYCuadradoUno);
+    nroYCuadradoDos = Number(nroYCuadradoDos);
 
-  let nroYCuadradoUno = cuadradoUno.dataset.y;
-  let nroYCuadradoDos = cuadradoDos.dataset.y;
-  nroYCuadradoUno = Number(nroYCuadradoUno);
-  nroYCuadradoDos = Number(nroYCuadradoDos);
-
-  if (nroXCuadradoUno == nroXCuadradoDos) {
-    if (
-      nroYCuadradoUno == nroYCuadradoDos + 1 ||
-      nroYCuadradoUno == nroYCuadradoDos - 1
-    ) {
-      console.log("Esto es true", nroYCuadradoUno, nroYCuadradoDos);
-      // return true;
+    if (nroXCuadradoUno == nroXCuadradoDos) {
+      if (
+        nroYCuadradoUno == nroYCuadradoDos + 1 ||
+        nroYCuadradoUno == nroYCuadradoDos - 1
+      ) {
+        // console.log("Son adyacentes!", nroYCuadradoUno, nroYCuadradoDos);
+        console.log("Son adyacentes!");
+        return true;
+        // return true;
+      }
+    }
+    if (nroYCuadradoUno == nroYCuadradoDos) {
+      if (
+        nroXCuadradoUno == nroXCuadradoDos + 1 ||
+        nroXCuadradoUno == nroXCuadradoDos - 1
+      ) {
+        // console.log("Esto es true", nroYCuadradoUno, nroXCuadradoUno);
+        console.log("Son adyacentes!");
+        return true;
+        // return true;
+      }
     }
   }
-  if (nroYCuadradoUno == nroYCuadradoDos) {
-    if (
-      nroXCuadradoUno == nroXCuadradoDos + 1 ||
-      nroXCuadradoUno == nroXCuadradoDos - 1
-    ) {
-      console.log("Esto es true", nroYCuadradoUno, nroXCuadradoUno);
-      // return true;
-    }
-  }
-  console.log("Esto es false");
+  console.log("NO son adyacentes :(");
+  return false;
   // return false;
 };
 ///////////////////////////////////////////////////
