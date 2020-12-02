@@ -9,9 +9,10 @@ const contenedorBotonMedio = document.getElementById("contenedor-boton-medio");
 const contenedorBotonDificil = document.getElementById(
   "contenedor-boton-dificil"
 );
-const gatitosSeleccionados = document.querySelectorAll(".seleccionado");
 
+const gatitosSeleccionados = document.querySelectorAll(".seleccionado");
 let gatitoGuardadoEnClickAnterior = null;
+
 //----------------------------- inicio sin bloques
 const inicioSinBloquesFacil = () => {
   do {
@@ -57,31 +58,10 @@ const colorearMatches = () => {
     alert("No hay matches :(");
   }
 };
-// ---------------------------INICIO BUSCAR BLOQUES AL CARGAR
-const buscarBloques = () => {
-  for (let i = 0; i < listaDeGatitos.length; i++) {
-    for (let j = 0; j < listaDeGatitos[i].length; j++) {
-      if (
-        listaDeGatitos[i][j] === listaDeGatitos[i][j + 1] &&
-        listaDeGatitos[i][j + 1] === listaDeGatitos[i][j + 2]
-      ) {
-        matchesHorizontales.push([i, j]);
-        matchesHorizontales.push([i, j + 1]);
-        matchesHorizontales.push([i, j + 2]);
-      }
-      if (
-        listaDeGatitos[i + 1] &&
-        listaDeGatitos[i + 2] &&
-        listaDeGatitos[i][j] === listaDeGatitos[i + 1][j] &&
-        listaDeGatitos[i][j] === listaDeGatitos[i + 2][j]
-      ) {
-        matchesVerticales.push([i, j]);
-        matchesVerticales.push([i + 1, j]);
-        matchesVerticales.push([i + 2, j]);
-      }
-    }
-  }
-  colorearMatches();
+// ---------------Obtener bloque de Matches
+
+const obtenerBloqueDeMatches = (arr) => {
+  return document.querySelector(`div[data-x='${arr[0]}'][data-y='${arr[1]}']`);
 };
 
 // -------------------------BUSCAR BLOQUE INICIAL------------------
@@ -108,7 +88,38 @@ const buscarBloqueInicial = () => {
   return false;
 };
 
-// ---------------------------Crear Array de Img Gatio------------
+// ---------------------------INICIO BUSCARmatch------
+
+let matchesHorizontales = [];
+let matchesVerticales = [];
+
+const buscarBloque = () => {
+  for (let i = 0; i < listaDeGatitos.length; i++) {
+    for (let j = 0; j < listaDeGatitos[i].length; j++) {
+      if (
+        listaDeGatitos[i][j] === listaDeGatitos[i][j + 1] &&
+        listaDeGatitos[i][j + 1] === listaDeGatitos[i][j + 2]
+      ) {
+        matchesHorizontales.push([i, j]);
+        matchesHorizontales.push([i, j + 1]);
+        matchesHorizontales.push([i, j + 2]);
+      }
+      if (
+        listaDeGatitos[i + 1] &&
+        listaDeGatitos[i + 2] &&
+        listaDeGatitos[i][j] === listaDeGatitos[i + 1][j] &&
+        listaDeGatitos[i][j] === listaDeGatitos[i + 2][j]
+      ) {
+        matchesVerticales.push([i, j]);
+        matchesVerticales.push([i + 1, j]);
+        matchesVerticales.push([i + 2, j]);
+      }
+    }
+  }
+  colorearMatches();
+};
+
+// ---------------------------Crear Array de Img Gatito------------
 const crearArrayGatitos = () => {
   let array = [];
 
@@ -118,18 +129,6 @@ const crearArrayGatitos = () => {
   return array;
 };
 //---------------------------------------------------------------------------------------
-
-// ---------------------------------------------CLICKEABLE
-
-const clickeable = () => {
-  const imgsGatitoHtml = document.querySelectorAll(".imagen-gatito");
-
-  for (let gatito of imgsGatitoHtml) {
-    gatito.onclick = () => {
-      gatito.classList.toggle("clickeable");
-    };
-  }
-};
 
 //-------------------------------INICIO CREACION DE GRILLA JS Y HTML----------
 let tamanio = 80;
@@ -187,6 +186,42 @@ const crearGrillaHtml = () => {
 
   return grilla;
 };
+// ------------------------------------------Efecto CLICKEABLE
+
+const clickeable = () => {
+  const imgsGatitoHtml = document.querySelectorAll(".imagen-gatito");
+
+  for (let gatito of imgsGatitoHtml) {
+    gatito.onclick = () => {
+      gatito.classList.toggle("clickeable");
+    };
+  }
+};
+// ---------------------- INICIO INTERCAMBIAR CUADRADOS
+const intercambiarCuadrados = (cuadrado1, cuadrado2) => {
+  // console.log(cuadrado1, "este es el UNO");
+  // console.log(cuadrado2, "Este es el dos");
+
+  const datax1 = Number(cuadrado1.dataset.x);
+  const datax2 = Number(cuadrado2.dataset.x);
+  const datay1 = Number(cuadrado1.dataset.y);
+  const datay2 = Number(cuadrado2.dataset.y);
+
+  let variableTemporal = listaDeGatitos[datax1][datay1];
+  listaDeGatitos[datax1][datay1] = listaDeGatitos[datax2][datay2];
+  listaDeGatitos[datax2][datay2] = variableTemporal;
+
+  cuadrado1.style.top = `${datax2 * tamanio}px`;
+  cuadrado2.style.top = `${datax1 * tamanio}px`;
+  cuadrado1.style.left = `${datay2 * tamanio}px`;
+  cuadrado2.style.left = `${datay1 * tamanio}px`;
+
+  cuadrado1.dataset.x = datax2;
+  cuadrado2.dataset.x = datax1;
+  cuadrado1.dataset.y = datay2;
+  cuadrado2.dataset.y = datay1;
+};
+// ---------------------------FIN INTERCAMBIAR CUADRADOS
 // ---------------------------Inicio Escuchar Clicks-----------
 const borrarSeleccion = (primerGato, segundoGato) => {
   primerGato.classList.remove("seleccionado");
@@ -222,6 +257,7 @@ const onClickHandler = (e) => {
 
       if (sonAdyacentes(gatitoGuardadoEnClickAnterior, gatitoClickeado)) {
         // console.log("son Adyacentes!!!!!!!!!!!!!!!!!!!!!!!!!");
+        intercambiarCuadrados(gatitoGuardadoEnClickAnterior, gatitoClickeado);
         cruzarGatitos(gatitoGuardadoEnClickAnterior, gatitoClickeado);
       } else {
         // no son adyacentes!!!
@@ -246,48 +282,39 @@ const sonAdyacentes = (cuadradoUno, cuadradoDos) => {
   // console.log(cuadradoUno, "cuadradoUNO SonAdyacentes");
   // console.log(cuadradoDos, "cuadradoDOS SonAdyacentes");
   if (cuadradoUno) {
-    let nroXCuadradoUno = cuadradoUno.dataset.x;
-    let nroXCuadradoDos = cuadradoDos.dataset.x;
-    nroXCuadradoUno = Number(nroXCuadradoUno);
-    nroXCuadradoDos = Number(nroXCuadradoDos);
+    let xCuadradoUno = cuadradoUno.dataset.x;
+    let xCuadradoDos = cuadradoDos.dataset.x;
+    xCuadradoUno = Number(xCuadradoUno);
+    xCuadradoDos = Number(xCuadradoDos);
 
-    let nroYCuadradoUno = cuadradoUno.dataset.y;
-    let nroYCuadradoDos = cuadradoDos.dataset.y;
-    nroYCuadradoUno = Number(nroYCuadradoUno);
-    nroYCuadradoDos = Number(nroYCuadradoDos);
+    let yCuadradoUno = cuadradoUno.dataset.y;
+    let yCuadradoDos = cuadradoDos.dataset.y;
+    yCuadradoUno = Number(yCuadradoUno);
+    yCuadradoDos = Number(yCuadradoDos);
 
-    if (nroXCuadradoUno == nroXCuadradoDos) {
+    if (xCuadradoUno == xCuadradoDos) {
       if (
-        nroYCuadradoUno == nroYCuadradoDos + 1 ||
-        nroYCuadradoUno == nroYCuadradoDos - 1
+        yCuadradoUno == yCuadradoDos + 1 ||
+        yCuadradoUno == yCuadradoDos - 1
       ) {
-        // console.log("Son adyacentes!", nroYCuadradoUno, nroYCuadradoDos);
+        // console.log("Son adyacentes!", yCuadradoUno, yCuadradoDos);
         console.log("Son adyacentes!");
         return true;
-        // return true;
       }
     }
-    if (nroYCuadradoUno == nroYCuadradoDos) {
+    if (yCuadradoUno == yCuadradoDos) {
       if (
-        nroXCuadradoUno == nroXCuadradoDos + 1 ||
-        nroXCuadradoUno == nroXCuadradoDos - 1
+        xCuadradoUno == xCuadradoDos + 1 ||
+        xCuadradoUno == xCuadradoDos - 1
       ) {
-        // console.log("Esto es true", nroYCuadradoUno, nroXCuadradoUno);
+        // console.log("Esto es true", yCuadradoUno, xCuadradoUno);
         console.log("Son adyacentes!");
         return true;
-        // return true;
       }
     }
   }
   console.log("NO son adyacentes :(");
   return false;
-  // return false;
-};
-///////////////////////////////////////////////////
-
-// ---------------Obtener bloque de Matches
-const obtenerBloqueDeMatches = (arr) => {
-  return document.querySelector(`div[data-x='${arr[0]}'][data-y='${arr[1]}']`);
 };
 
 const ocultarBotones = () => {
@@ -301,11 +328,9 @@ const vaciarGrilla = () => {
   matchesHorizontales = [];
   matchesVerticales = [];
 };
-
+// ------------------Inicio botones Dificultad on Click-------------
 botonFacil.onclick = () => {
   inicioSinBloquesFacil();
-  // clickCuadradoUno();
-  // escucharClicks();
 
   reiniciarJuego.classList.add("facil");
 };
@@ -322,16 +347,6 @@ botonDificil.onclick = () => {
   reiniciarJuego.classList.add("dificil");
 };
 
-// AJugar.onclick = () => {
-//   vaciarGrilla();
-//   contenedorBotonFacil.classList.toggle("ocultar");
-//   contenedorBotonMedio.classList.toggle("ocultar");
-//   contenedorBotonDificil.classList.toggle("ocultar");
-//   reiniciarJuego.classList.remove("facil");
-//   reiniciarJuego.classList.remove("medio");
-//   reiniciarJuego.classList.remove("dificil");
-// };
-
 reiniciarJuego.onclick = () => {
   clickeable();
   vaciarGrilla();
@@ -343,13 +358,9 @@ reiniciarJuego.onclick = () => {
     inicioSinBloquesDificil();
   }
 };
-let matchesHorizontales = [];
-let matchesVerticales = [];
 
 buscarMatches.onclick = () => {
-  buscarBloques();
-  console.log(escucharClicks());
-  console.log(arrayCuadradosClickeados);
+  buscarBloque();
 };
 
 /**************cuenta regresiva */
@@ -383,7 +394,3 @@ const ocultarSeleccionDificultad = () => {
 AJugar.onclick = () => {
   ocultarBienvenida();
 };
-
-// botonCerrarDificultad.onclick = () => {
-//   ocultarSeleccionDificultad();
-// };
