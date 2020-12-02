@@ -116,7 +116,8 @@ const buscarBloque = () => {
       }
     }
   }
-  colorearMatches();
+  // colorearMatches();
+  eliminarItemsIguales();
 };
 
 // ---------------------------Crear Array de Img Gatito------------
@@ -395,3 +396,23 @@ const ocultarSeleccionDificultad = () => {
 AJugar.onclick = () => {
   ocultarBienvenida();
 };
+
+
+
+// ------------------------- ELIMINAR LOS ITEMS
+
+
+const eliminarItemsIguales = (divGatito) => {
+  for (let i = 0; i < matchesHorizontales.length; i++) {
+    obtenerBloqueDeMatches(matchesHorizontales[i]).removeChild(divGatito);
+  }
+  // for (let i = 0; i < matchesVerticales.length; i++) {
+  //   obtenerBloqueDeMatches(matchesVerticales[i]).style.backgroundColor =
+  //     "orange";
+  // }
+  // if (!matchesHorizontales.length && !matchesVerticales.length) {
+  //   alert("No hay matches :(");
+  // }
+};
+
+eliminarItemsIguales();
