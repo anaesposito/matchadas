@@ -1,16 +1,14 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300&family=Roboto:ital,wght@1,100&display=swap');
-
 body {
-    font-family: 'Montserrat', sans-serif;
+  width: 100vw;
+  height: 100vh;
+  background-image: url(img/Fondo-Arco-Iris.png);
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 .grilla {
-  display: flex;
-  flex-wrap: wrap;
+  position: relative;
   margin: auto;
-  background-color: #ff5cb849;
-  border-radius: 20px;
-  /* border: solid #ff5cb8b4 3px; */
 }
 
 #modal-bienvenida {
@@ -66,23 +64,74 @@ body {
 .grilla > div {
   width: 80px;
   height: 80px;
-
   box-sizing: border-box;
   display: flex;
   justify-content: center;
   align-items: center;
+  box-sizing: border-box;
+  position: absolute;
+  background-color: #ff5cb849;
 }
-.ocultar {
-  display: none !important ;
-  
+/* .contenedor-grillas {
+  width: 100%;
+  border-radius: 10px;
+  padding: 10px;
+  box-sizing: border-box;
+  border: 3px solid #ff5cb8c5;
+  background: #ff5cb849;
+} */
+
+/* MODALES */
+#modal-bienvenida {
+  position: absolute;
+  z-index: 11111;
 }
 
-body {
-  width: 100vw;
-  background-image: url(img/Fondo-Arco-Iris.png);
-  background-size: cover;
-  background-repeat: no-repeat;
+#modal-tarjeta {
+  width: 500px;
 }
+
+#texto {
+  margin: 0 25px 0 25px;
+}
+
+#modal-texto {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+#modal-controles {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+#modal-controles h2 {
+  margin-bottom: 10px;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+#boton-jugar {
+  background-color: #d81b60;
+  margin-left: 350px;
+}
+
+.boton-dificultad {
+  background-color: #d81b60 !important;
+}
+
+#modal-card-foot {
+  justify-content: center;
+}
+
+/* -------------------------------- FIN MODALES */
+
+.seleccionado {
+  border: solid 4px black;
+}
+
 /* -------------------- INICIO GATITO CLICKEABLE------------------ */
 .imagen-gatito {
   width: 80%;
@@ -98,3 +147,6 @@ body {
   }
 }
 /* -------------------- FIN GATITO CLICKEABLE------------------ */
+.ocultar {
+  display: none;
+}
