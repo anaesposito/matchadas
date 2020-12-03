@@ -11,7 +11,7 @@ const contenedorBotonDificil = document.getElementById(
 );
 
 const gatitosSeleccionados = document.querySelectorAll(".seleccionado");
-let gatitoGuardadoEnClickAnterior = null;
+let gatitoGuardadoEnClickAnterior = "";
 
 //----------------------------- inicio sin bloques
 const inicioSinBloquesFacil = () => {
@@ -19,7 +19,7 @@ const inicioSinBloquesFacil = () => {
     ocultarSeleccionDificultad();
     vaciarGrilla();
     crearGrilla(6, 6);
-    crearGrillaHtml();
+    crearGrillaHtml(6);
     clickeable();
   } while (buscarBloqueInicial());
 };
@@ -29,7 +29,7 @@ const inicioSinBloquesMedio = () => {
     ocultarSeleccionDificultad();
     vaciarGrilla();
     crearGrilla(8, 8);
-    crearGrillaHtml();
+    crearGrillaHtml(8);
     clickeable();
   } while (buscarBloqueInicial());
 };
@@ -39,24 +39,59 @@ const inicioSinBloquesDificil = () => {
     ocultarSeleccionDificultad();
     vaciarGrilla();
     crearGrilla(10, 10);
-    crearGrillaHtml();
+    crearGrillaHtml(10);
     clickeable();
   } while (buscarBloqueInicial());
 };
 
 // ------------------ recorrer matches y colorearlos------------
-const colorearMatches = () => {
+
+let listaDivsVacios = [];
+const recorrerDivVacios = () => {
+  let hijosDeGrilla = grilla.children;
+  for (let div of hijosDeGrilla) {
+    if (div.lastElementChild) {
+      // console.log(" hay ");
+    }
+    if (!div.lastElementChild) {
+      // console.log(" NO hay ", div);
+      listaDivsVacios.push(div);
+    }
+  }
+  // for (let i = 0; i < listaDeGatitos.length; i++) {
+  //   for (let j = 0; j < listaDeGatitos[i].length; j++) {
+
+  //   }
+
+  // }
+  // console.log(listaDivsVacios);
+  insertarNuevosGatitos(listaDivsVacios);
+};
+const insertarNuevosGatitos = (listaDivsVacios) => {
+  for (let k = 0; k < listaDivsVacios.length; k++) {
+    let img = document.createElement("img");
+    img.src = listaDeGatitos[j][k];
+    img.classList.add("imagen-gatito");
+    listaDivsVacios[i].appendChild(img);
+  }
+};
+
+const borrarMatches = () => {
   for (let i = 0; i < matchesHorizontales.length; i++) {
-    obtenerBloqueDeMatches(matchesHorizontales[i]).style.backgroundColor =
-      "yellow";
+    obtenerBloqueDeMatches(matchesHorizontales[i]).innerHTML = "";
+    console.dir(matchesHorizontales[i]);
   }
   for (let i = 0; i < matchesVerticales.length; i++) {
-    obtenerBloqueDeMatches(matchesVerticales[i]).style.backgroundColor =
-      "orange";
+    obtenerBloqueDeMatches(matchesVerticales[i]).innerHTML = "";
+    // console.dir(matchesHorizontales[i]);
   }
   if (!matchesHorizontales.length && !matchesVerticales.length) {
     alert("No hay matches :(");
   }
+};
+const botonProbandoVacios = document.querySelector("#boton-vacios");
+botonProbandoVacios.onclick = () => {
+  recorrerDivVacios();
 };
 // ---------------Obtener bloque de Matches
 
@@ -88,7 +123,7 @@ const buscarBloqueInicial = () => {
   return false;
 };
 
-// ---------------------------INICIO BUSCARmatch------
+// ---------------------------INICIO BUSCARmatch BOTON------
 
 let matchesHorizontales = [];
 let matchesVerticales = [];
@@ -116,7 +151,7 @@ const buscarBloque = () => {
       }
     }
   }
-  colorearMatches();
+  borrarMatches();
 };
 
 // ---------------------------Crear Array de Img Gatito------------
@@ -148,7 +183,7 @@ const obtenerGatitoAlAzar = (items) => {
 
 const crearDivGatito = (x, y) => {
   const divGatito = document.createElement("div");
-  divGatito.addEventListener("click", onClickHandler);
+  divGatito.addEventListener("click", escucharClicks);
   divGatito.dataset.x = x;
   divGatito.dataset.y = y;
   divGatito.dataset.id = `${x + y}`;
@@ -164,9 +199,6 @@ const crearDivGatito = (x, y) => {
 };
 
 const crearGrilla = (ancho, alto) => {
-  const anchoDeGrilla = 50 * ancho;
-  grilla.style.width = `${anchoDeGrilla}px`;
-
   for (let i = 0; i < ancho; i++) {
     listaDeGatitos[i] = [];
     for (let j = 0; j < alto; j++) {
@@ -175,7 +207,9 @@ const crearGrilla = (ancho, alto) => {
   }
   return listaDeGatitos;
 };
-const crearGrillaHtml = () => {
+const crearGrillaHtml = (ancho) => {
+  const anchoDeGrilla = 50 * ancho;
+  grilla.style.width = `${anchoDeGrilla}px`;
   for (let i = 0; i < listaDeGatitos.length; i++) {
     for (let j = 0; j < listaDeGatitos[i].length; j++) {
       gatitos = obtenerGatitoAlAzar(items);
@@ -231,12 +265,15 @@ const borrarSeleccion = (primerGato, segundoGato) => {
 const cruzarGatitos = (primerGato, segundoGato) => {
   //llamo a esta funcion cuando se seleccionaron adyancentes!
   // la uso para cruzar los gatitos despues
-  gatitoGuardadoEnClickAnterior = null;
+  gatitoGuardadoEnClickAnterior = "";
 };
-const onClickHandler = (e) => {
+
+// VER SI STRING '' PARA ANTERIOR
+
+const escucharClicks = (e) => {
   // console.log("primer gato clickeado: ", gatitoGuardadoEnClickAnterior);
 
-  let gatitoClickeado = e.target;
+  let gatitoClickeado = e.target; // CLICK
 
   if (gatitoClickeado.nodeName === "IMG") {
     gatitoClickeado = gatitoClickeado.parentElement;
@@ -317,7 +354,6 @@ const sonAdyacentes = (cuadradoUno, cuadradoDos) => {
   return false;
 };
 
-
 const ocultarBotones = () => {
   botonFacil.classList.add("ocultar");
   botonMedio.classList.add("ocultar");
@@ -395,3 +431,5 @@ const ocultarSeleccionDificultad = () => {
 AJugar.onclick = () => {
   ocultarBienvenida();
 };
+
+// ------------------ remove Gatito
