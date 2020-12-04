@@ -194,6 +194,12 @@ const obtenerNumeroAlAzar = () => {
 const obtenerSrcGatito = () => {
   return `img/Gatito-${obtenerNumeroAlAzar()}.png`;
 };
+
+const obtenerImgGatito = () => {
+  let img = document.createElement("img");
+  img.src = obtenerSrcGatito();
+  return img;
+};
 //---------------------------------------------------------------------------------------
 
 //-------------------------------INICIO CREACION DE GRILLA JS Y HTML----------
@@ -206,10 +212,8 @@ const crearDivGatito = (x, y) => {
   divGatito.dataset.x = x;
   divGatito.dataset.y = y;
   divGatito.dataset.id = `${x}${y}`;
-  let img = document.createElement("img");
-  img.src = listaDeGatitos[x][y];
-  img.classList.add("imagen-gatito");
-  divGatito.appendChild(img);
+
+  divGatito.appendChild(listaDeGatitos[x][y]);
   divGatito.style.top = `${x * tamanio}px`;
   divGatito.style.left = `${y * tamanio}px`;
   divGatito.className = "contenedor-gatito";
@@ -221,7 +225,7 @@ const crearGrilla = (ancho, alto) => {
   for (let i = 0; i < ancho; i++) {
     listaDeGatitos[i] = [];
     for (let j = 0; j < alto; j++) {
-      listaDeGatitos[i][j] = obtenerSrcGatito();
+      listaDeGatitos[i][j] = obtenerImgGatito();
     }
   }
   return listaDeGatitos;
