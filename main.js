@@ -294,7 +294,7 @@ const escucharClicks = (e) => {
   if (!gatitoClickeado.className.includes("seleccionado")) {
     // console.log("gatitoclickeado", gatitoClickeado);
     gatitoClickeado.classList.add("seleccionado"); // si no está seleccionado lo selecciono.
-    console.log(gatitoGuardadoEnClickAnterior);
+    // console.log(gatitoGuardadoEnClickAnterior);
     if (
       gatitoGuardadoEnClickAnterior &&
       !esIgualAlPrimerGato(gatitoClickeado)
@@ -304,7 +304,16 @@ const escucharClicks = (e) => {
 
       borrarSeleccion(gatitoGuardadoEnClickAnterior, gatitoClickeado);
 
-      if (sonAdyacentes(gatitoGuardadoEnClickAnterior, gatitoClickeado)) {
+      if (
+        sonAdyacentesHorizontalmente(
+          gatitoGuardadoEnClickAnterior,
+          gatitoClickeado
+        ) ||
+        sonAdyacentesVerticalmente(
+          gatitoGuardadoEnClickAnterior,
+          gatitoClickeado
+        )
+      ) {
         // console.log("son Adyacentes!!!!!!!!!!!!!!!!!!!!!!!!!");
         intercambiarCuadrados(gatitoGuardadoEnClickAnterior, gatitoClickeado);
         cruzarGatitos(gatitoGuardadoEnClickAnterior, gatitoClickeado);
@@ -327,39 +336,56 @@ const esIgualAlPrimerGato = (gato) => {
 };
 
 // --------------INICIO SON ADYACENTES
-const sonAdyacentes = (cuadradoUno, cuadradoDos) => {
+
+const sonAdyacentesHorizontalmente = (cuadradoUno, cuadradoDos) => {
+  let xCuadradoUno = cuadradoUno.dataset.x;
+  let xCuadradoDos = cuadradoDos.dataset.x;
+  xCuadradoUno = Number(xCuadradoUno);
+  xCuadradoDos = Number(xCuadradoDos);
+
+  let yCuadradoUno = cuadradoUno.dataset.y;
+  let yCuadradoDos = cuadradoDos.dataset.y;
+  yCuadradoUno = Number(yCuadradoUno);
+  yCuadradoDos = Number(yCuadradoDos);
   if (cuadradoUno) {
-    let xCuadradoUno = cuadradoUno.dataset.x;
-    let xCuadradoDos = cuadradoDos.dataset.x;
-    xCuadradoUno = Number(xCuadradoUno);
-    xCuadradoDos = Number(xCuadradoDos);
-
-    let yCuadradoUno = cuadradoUno.dataset.y;
-    let yCuadradoDos = cuadradoDos.dataset.y;
-    yCuadradoUno = Number(yCuadradoUno);
-    yCuadradoDos = Number(yCuadradoDos);
-
     if (xCuadradoUno == xCuadradoDos) {
       if (
         yCuadradoUno == yCuadradoDos + 1 ||
         yCuadradoUno == yCuadradoDos - 1
       ) {
-        // console.log("Son adyacentes!");
+        console.log("Son adyacentes! HORIZONTALES");
         return true;
       }
     }
+  }
+  console.log("no son adyacentes");
+  return false;
+};
+
+const sonAdyacentesVerticalmente = (cuadradoUno, cuadradoDos) => {
+  let xCuadradoUno = cuadradoUno.dataset.x;
+  let xCuadradoDos = cuadradoDos.dataset.x;
+  xCuadradoUno = Number(xCuadradoUno);
+  xCuadradoDos = Number(xCuadradoDos);
+
+  let yCuadradoUno = cuadradoUno.dataset.y;
+  let yCuadradoDos = cuadradoDos.dataset.y;
+  yCuadradoUno = Number(yCuadradoUno);
+  yCuadradoDos = Number(yCuadradoDos);
+
+  if (cuadradoUno) {
     if (yCuadradoUno == yCuadradoDos) {
       if (
         xCuadradoUno == xCuadradoDos + 1 ||
         xCuadradoUno == xCuadradoDos - 1
       ) {
         // console.log("Esto es true", yCuadradoUno, xCuadradoUno);
-        // console.log("Son adyacentes!");
+        console.log("Son adyacentes! Verticalmente");
         return true;
       }
     }
   }
-  // console.log("NO son adyacentes :(");
+  console.log("NO son adyacentes :(");
   return false;
 };
 
@@ -413,7 +439,7 @@ buscarMatches.onclick = () => {
 /**************cuenta regresiva */
 let tiempo = 30;
 const tiempoHtml = document.getElementById("tiempo");
-console.log(tiempoHtml);
+// console.log(tiempoHtml);
 const cuentaRegresiva = () => {
   tiempoHtml.innerHTML = `0:${tiempo}`;
   if (tiempo <= 0) {
