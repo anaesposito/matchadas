@@ -48,18 +48,24 @@ const inicioSinBloquesDificil = () => {
 
 // ------------------ ------------
 
-// let listaDivsVacios = [];
-// const recorrerDivVacios = () => {
-//   let hijosDeGrilla = grilla.children;
-//   for (let div of hijosDeGrilla) {
-//     if (div.lastElementChild) {
-//       // console.log(" hay ");
-//     }
-//     if (!div.lastElementChild) {
-//       // console.log(" NO hay ", div);
-//       listaDivsVacios.push(div);
-//     }
-//   }
+let listaDivsVacios = [];
+/**
+ * recorre la grilla en busca de divs sin contenido
+ */
+
+//  ahora si esta vacio, que busque los divs adyacente vertical para moverlos
+const recorrerDivVacios = () => {
+  let hijosDeGrilla = grilla.children;
+  for (let div of hijosDeGrilla) {
+    if (div.lastElementChild) {
+      console.log(" hay ");
+    }
+    if (!div.lastElementChild) {
+      console.log(" NO hay ", div);
+      listaDivsVacios.push(div);
+    }
+  }
+};
 
 //   insertarNuevosGatitos(listaDivsVacios);
 // };
@@ -99,10 +105,11 @@ const borrarMatches = () => {
   matchesVerticales = [];
 };
 
-// const botonProbandoVacios = document.querySelector("#boton-vacios");
-// botonProbandoVacios.onclick = () => {
-//   recorrerDivVacios();
-// };
+const botonProbandoVacios = document.querySelector("#boton-vacios");
+botonProbandoVacios.onclick = () => {
+  recorrerDivVacios();
+};
+
 // ---------------Obtener bloque de Matches
 /**
  * Devuelve un div en la coordenadas dadas.
