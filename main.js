@@ -9,9 +9,9 @@ const contenedorBotonMedio = document.getElementById("contenedor-boton-medio");
 const contenedorBotonDificil = document.getElementById(
   "contenedor-boton-dificil"
 );
+const cantidadDeImagenesDiferentes = 6;
+const tamanioImg = 80;
 
-const cantidadDeImgDiferentes = 6;
-const tamanio = 80;
 const gatitosSeleccionados = document.querySelectorAll(".seleccionado");
 let gatitoGuardadoEnClickAnterior = "";
 
@@ -23,7 +23,7 @@ const inicioSinBloquesFacil = () => {
     crearGrilla(6, 6);
     crearGrillaHtml(6);
     clickeable();
-  } while (buscarBloqueInicial());
+  } while (buscarBloqueInicial(6));
 };
 
 const inicioSinBloquesMedio = () => {
@@ -33,7 +33,7 @@ const inicioSinBloquesMedio = () => {
     crearGrilla(8, 8);
     crearGrillaHtml(8);
     clickeable();
-  } while (buscarBloqueInicial());
+  } while (buscarBloqueInicial(8));
 };
 
 const inicioSinBloquesDificil = () => {
@@ -43,40 +43,36 @@ const inicioSinBloquesDificil = () => {
     crearGrilla(10, 10);
     crearGrillaHtml(10);
     clickeable();
-  } while (buscarBloqueInicial());
+  } while (buscarBloqueInicial(10));
 };
 
-// ------------------ ------------
+// ------------------ recorrer matches y colorearlos------------
 
 let listaDivsVacios = [];
-/**
- * recorre la grilla en busca de divs sin contenido
- */
-
-//  ahora si esta vacio, que busque los divs adyacente vertical para moverlos
 const recorrerDivVacios = () => {
   let hijosDeGrilla = grilla.children;
   for (let div of hijosDeGrilla) {
     if (div.lastElementChild) {
-      console.log(" hay ");
+      // console.log(" hay ");
     }
     if (!div.lastElementChild) {
-      console.log(" NO hay ", div);
+      // console.log(" NO hay ", div);
       listaDivsVacios.push(div);
     }
   }
+
+  // insertarNuevosGatitos(listaDivsVacios);
 };
 
-//   insertarNuevosGatitos(listaDivsVacios);
-// };
-// const insertarNuevosGatitos = (listaDivsVacios) => {
-//   for (let k = 0; k < listaDivsVacios.length; k++) {
-//     let img = document.createElement("img");
-//     img.src = listaDeGatitos[j][k];
-//     img.classList.add("imagen-gatito");
-//     listaDivsVacios[i].appendChild(img);
-//   }
-// };
+const insertarNuevosGatitos = (listaDivsVacios) => {
+  for (let k = 0; k < listaDivsVacios.length; k++) {
+    let img = document.createElement("img");
+
+    img.classList.add("imagen-gatito");
+    listaDivsVacios[i].appendChild(img);
+  }
+};
+
 const removerImagenDelDiv = (divGatito) => {
   console.log("remover de este div:", divGatito);
 
@@ -104,13 +100,12 @@ const borrarMatches = () => {
   matchesHorizontales = [];
   matchesVerticales = [];
 };
-
 const botonProbandoVacios = document.querySelector("#boton-vacios");
 botonProbandoVacios.onclick = () => {
   recorrerDivVacios();
 };
-
 // ---------------Obtener bloque de Matches
+
 /**
  * Devuelve un div en la coordenadas dadas.
  * @param {array} indices - Posición x y de la celda
@@ -121,26 +116,35 @@ const obtenerDivMatcheado = (arr) => {
 
 // -------------------------BUSCAR BLOQUE INICIAL------------------
 
-const buscarBloqueInicial = () => {
+const buscarBloqueInicial = (maximo) => {
+  maximo = maximo - 1;
   for (let i = 0; i < listaDeGatitos.length; i++) {
     for (let j = 0; j < listaDeGatitos[i].length; j++) {
-      if (
-        listaDeGatitos[i][j] === listaDeGatitos[i][j + 1] &&
-        listaDeGatitos[i][j + 1] === listaDeGatitos[i][j + 2]
-      ) {
-        return true;
-      }
-      if (
-        listaDeGatitos[i + 1] &&
-        listaDeGatitos[i + 2] &&
-        listaDeGatitos[i][j] === listaDeGatitos[i + 1][j] &&
-        listaDeGatitos[i][j] === listaDeGatitos[i + 2][j]
-      ) {
-        return true;
+      //  listaDeGatios[i][j] es la img
+      let celdaActual = listaDeGatitos[i][j].src;
+      // if (listaDeGatitos[i < maximo][j < maximo]) {
+      if (listaDeGatitos[i][j + 2] <= listaDeGatitos[i][maximo]) {
+        if (listaDeGatitos[i + 1][j] <= listaDeGatitos[maximo][j]) {
+          let celdaHorizontalMasUno = listaDeGatitos[i][j + 1].src;
+          let celdaHorizontalMasDos = listaDeGatitos[i][j + 2].src;
+          let celdaVerticalMasUno = listaDeGatitos[i + 1][j].src;
+          let celdaVerticalMasDos = listaDeGatitos[i + 2][j].src;
+          if (
+            celdaActual === celdaHorizontalMasUno &&
+            celdaActual === celdaHorizontalMasDos
+          ) {
+            console.log("hay un match horizontal", listaDeGatitos[i][j]);
+          }
+          if (
+            celdaActual === celdaVerticalMasUno &&
+            celdaActual === celdaVerticalMasDos
+          ) {
+            console.log("hay un match vertical", listaDeGatitos[i][j]);
+          }
+        }
       }
     }
   }
-  return false;
 };
 
 // ---------------------------INICIO BUSCARmatch BOTON------
@@ -155,6 +159,8 @@ let matchesVerticales = [];
 const buscarBloque = () => {
   for (let i = 0; i < listaDeGatitos.length; i++) {
     for (let j = 0; j < listaDeGatitos[i].length; j++) {
+      // for (let k = 0; k < listaDeGatitos[i][j].length; k++) {
+      //   console.log(listaDeGatitos[i][j][k]);
       const celdaActual = listaDeGatitos[i][j];
       if (
         listaDeGatitos[i][j + 1] && // valido no irme de ancho.
@@ -165,6 +171,7 @@ const buscarBloque = () => {
         matchesHorizontales.push([i, j]);
         matchesHorizontales.push([i, j + 1]);
         matchesHorizontales.push([i, j + 2]);
+        console.log(matchesHorizontales);
       }
       if (
         listaDeGatitos[i + 1] && //
@@ -180,13 +187,14 @@ const buscarBloque = () => {
   }
   // borrarMatches();
 };
+// };
 
-// ---------------------------Crear Img Gatito------------
+// ---------------------------Crear Array de Img Gatito------------
 /**
  * Devuelve un numero entero al azar entre 0 y la cantidad máxima de imagenes!
  */
 const obtenerNumeroAlAzar = () => {
-  return Math.floor(Math.random() * cantidadDeImgDiferentes);
+  return Math.floor(Math.random() * cantidadDeImagenesDiferentes);
 };
 /**
  * Devuelve un string random que se va a usar como src en los img.
@@ -195,16 +203,21 @@ const obtenerSrcGatito = () => {
   return `img/Gatito-${obtenerNumeroAlAzar()}.png`;
 };
 
-const obtenerImgGatito = () => {
+const obtenerImgGatito = (i, j) => {
   let img = document.createElement("img");
   img.src = obtenerSrcGatito();
+  img.dataset.x = i;
+  img.dataset.y = j;
+  img.dataset.id = `${i}${j}`;
+  img.classList.add("imagen-gatito");
   return img;
 };
+
 //---------------------------------------------------------------------------------------
 
 //-------------------------------INICIO CREACION DE GRILLA JS Y HTML----------
 
-let listaDeGatitos = [];
+let listaDeGatitos = []; // esta es la grilla que va a contener todas las IMGs
 
 const crearDivGatito = (x, y) => {
   const divGatito = document.createElement("div");
@@ -212,10 +225,12 @@ const crearDivGatito = (x, y) => {
   divGatito.dataset.x = x;
   divGatito.dataset.y = y;
   divGatito.dataset.id = `${x}${y}`;
+  // let img = document.createElement("img");
 
+  // img.src = listaDeGatitos[x][y];
   divGatito.appendChild(listaDeGatitos[x][y]);
-  divGatito.style.top = `${x * tamanio}px`;
-  divGatito.style.left = `${y * tamanio}px`;
+  divGatito.style.top = `${x * tamanioImg}px`;
+  divGatito.style.left = `${y * tamanioImg}px`;
   divGatito.className = "contenedor-gatito";
 
   return divGatito;
@@ -225,14 +240,14 @@ const crearGrilla = (ancho, alto) => {
   for (let i = 0; i < ancho; i++) {
     listaDeGatitos[i] = [];
     for (let j = 0; j < alto; j++) {
-      listaDeGatitos[i][j] = obtenerImgGatito();
+      listaDeGatitos[i][j] = obtenerImgGatito(i, j);
     }
   }
   return listaDeGatitos;
 };
 const crearGrillaHtml = (ancho) => {
-  const anchoDeGrilla = tamanio * ancho;
-  grilla.style.width = `${anchoDeGrilla}px`;
+  const anchoDeGrilla = tamanioImg * ancho;
+  grilla.style.width = `${anchoDeGrilla}px`; // ancho de celda
   for (let i = 0; i < listaDeGatitos.length; i++) {
     for (let j = 0; j < listaDeGatitos[i].length; j++) {
       grilla.appendChild(crearDivGatito(i, j));
@@ -254,6 +269,9 @@ const clickeable = () => {
 };
 // ---------------------- INICIO INTERCAMBIAR CUADRADOS
 const intercambiarCuadrados = (cuadrado1, cuadrado2) => {
+  // console.log(cuadrado1, "este es el UNO");
+  // console.log(cuadrado2, "Este es el dos");
+
   const datax1 = Number(cuadrado1.dataset.x);
   const datax2 = Number(cuadrado2.dataset.x);
   const datay1 = Number(cuadrado1.dataset.y);
@@ -263,10 +281,11 @@ const intercambiarCuadrados = (cuadrado1, cuadrado2) => {
   listaDeGatitos[datax1][datay1] = listaDeGatitos[datax2][datay2];
   listaDeGatitos[datax2][datay2] = variableTemporal;
 
-  cuadrado1.style.top = `${datax2 * tamanio}px`;
-  cuadrado2.style.top = `${datax1 * tamanio}px`;
-  cuadrado1.style.left = `${datay2 * tamanio}px`;
-  cuadrado2.style.left = `${datay1 * tamanio}px`;
+  console.log(variableTemporal);
+  cuadrado1.style.top = `${datax2 * tamanioImg}px`;
+  cuadrado2.style.top = `${datax1 * tamanioImg}px`;
+  cuadrado1.style.left = `${datay2 * tamanioImg}px`;
+  cuadrado2.style.left = `${datay1 * tamanioImg}px`;
 
   cuadrado1.dataset.x = datax2;
   cuadrado2.dataset.x = datax1;
@@ -285,6 +304,8 @@ const cruzarGatitos = (primerGato, segundoGato) => {
   // la uso para cruzar los gatitos despues
   gatitoGuardadoEnClickAnterior = "";
 };
+
+// VER SI STRING '' PARA ANTERIOR
 
 const escucharClicks = (e) => {
   // console.log("primer gato clickeado: ", gatitoGuardadoEnClickAnterior);
@@ -308,16 +329,7 @@ const escucharClicks = (e) => {
 
       borrarSeleccion(gatitoGuardadoEnClickAnterior, gatitoClickeado);
 
-      if (
-        sonAdyacentesHorizontalmente(
-          gatitoGuardadoEnClickAnterior,
-          gatitoClickeado
-        ) ||
-        sonAdyacentesVerticalmente(
-          gatitoGuardadoEnClickAnterior,
-          gatitoClickeado
-        )
-      ) {
+      if (sonAdyacentes(gatitoGuardadoEnClickAnterior, gatitoClickeado)) {
         // console.log("son Adyacentes!!!!!!!!!!!!!!!!!!!!!!!!!");
         intercambiarCuadrados(gatitoGuardadoEnClickAnterior, gatitoClickeado);
         cruzarGatitos(gatitoGuardadoEnClickAnterior, gatitoClickeado);
@@ -340,56 +352,42 @@ const esIgualAlPrimerGato = (gato) => {
 };
 
 // --------------INICIO SON ADYACENTES
-
-const sonAdyacentesHorizontalmente = (cuadradoUno, cuadradoDos) => {
-  let xCuadradoUno = cuadradoUno.dataset.x;
-  let xCuadradoDos = cuadradoDos.dataset.x;
-  xCuadradoUno = Number(xCuadradoUno);
-  xCuadradoDos = Number(xCuadradoDos);
-
-  let yCuadradoUno = cuadradoUno.dataset.y;
-  let yCuadradoDos = cuadradoDos.dataset.y;
-  yCuadradoUno = Number(yCuadradoUno);
-  yCuadradoDos = Number(yCuadradoDos);
+const sonAdyacentes = (cuadradoUno, cuadradoDos) => {
+  // console.log(cuadradoUno, "cuadradoUNO SonAdyacentes");
+  // console.log(cuadradoDos, "cuadradoDOS SonAdyacentes");
   if (cuadradoUno) {
+    let xCuadradoUno = cuadradoUno.dataset.x;
+    let xCuadradoDos = cuadradoDos.dataset.x;
+    xCuadradoUno = Number(xCuadradoUno);
+    xCuadradoDos = Number(xCuadradoDos);
+
+    let yCuadradoUno = cuadradoUno.dataset.y;
+    let yCuadradoDos = cuadradoDos.dataset.y;
+    yCuadradoUno = Number(yCuadradoUno);
+    yCuadradoDos = Number(yCuadradoDos);
+
     if (xCuadradoUno == xCuadradoDos) {
       if (
         yCuadradoUno == yCuadradoDos + 1 ||
         yCuadradoUno == yCuadradoDos - 1
       ) {
-        console.log("Son adyacentes! HORIZONTALES");
+        // console.log("Son adyacentes!", yCuadradoUno, yCuadradoDos);
+        // console.log("Son adyacentes!");
         return true;
       }
     }
-  }
-  console.log("no son adyacentes");
-  return false;
-};
-
-const sonAdyacentesVerticalmente = (cuadradoUno, cuadradoDos) => {
-  let xCuadradoUno = cuadradoUno.dataset.x;
-  let xCuadradoDos = cuadradoDos.dataset.x;
-  xCuadradoUno = Number(xCuadradoUno);
-  xCuadradoDos = Number(xCuadradoDos);
-
-  let yCuadradoUno = cuadradoUno.dataset.y;
-  let yCuadradoDos = cuadradoDos.dataset.y;
-  yCuadradoUno = Number(yCuadradoUno);
-  yCuadradoDos = Number(yCuadradoDos);
-
-  if (cuadradoUno) {
     if (yCuadradoUno == yCuadradoDos) {
       if (
         xCuadradoUno == xCuadradoDos + 1 ||
         xCuadradoUno == xCuadradoDos - 1
       ) {
         // console.log("Esto es true", yCuadradoUno, xCuadradoUno);
-        console.log("Son adyacentes! Verticalmente");
+        // console.log("Son adyacentes!");
         return true;
       }
     }
   }
-  console.log("NO son adyacentes :(");
+  // console.log("NO son adyacentes :(");
   return false;
 };
 
@@ -437,7 +435,7 @@ reiniciarJuego.onclick = () => {
 
 buscarMatches.onclick = () => {
   buscarBloque();
-  borrarMatches();
+  // borrarMatches();
 };
 
 /**************cuenta regresiva */
