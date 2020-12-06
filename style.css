@@ -6,6 +6,7 @@ body {
   background-repeat: no-repeat;
   display: flex;
   justify-content: center;
+  position: relative;
   /* align-items: center; */
   /* background-position-y: 50%; */
   padding: 0 10px;
@@ -15,7 +16,8 @@ body {
   position: relative;
   display: flex;
   align-content: center;
-  /* /* display: inline-block; */
+  left: 10px;
+  top: 10px;
   max-width: 500px;
   max-height: 500px;
 }
@@ -28,11 +30,12 @@ body {
   justify-content: center;
   align-items: center;
   position: absolute;
-  background-color: #ff5cb849;
+  /* background-color: #ff5cb849; */
 }
 
 .contenedor-grilla {
   padding: 10px;
+  left: 100px;
   border-radius: 20px;
   max-width: 500px;
   max-height: 500px;
