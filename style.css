@@ -12,18 +12,18 @@ body {
 }
 
 .grilla {
-  position: absolute;
+  position: relative;
   display: flex;
   align-content: center;
 }
 
-.grilla > div {
+.contenedor-gatito {
   width: 80px;
   height: 80px;
   box-sizing: border-box;
-  /* display: flex;
+  display: flex;
   justify-content: center;
-  align-items: center; */
+  align-items: center;
   position: absolute;
   background-color: #ff5cb849;
 }
@@ -32,7 +32,9 @@ body {
   padding: 10px;
   border-radius: 20px;
   width: 700px;
+  height: 700px;
   margin-top: 40px;
+  position: relative;
 }
 #modal-bienvenida {
   position: absolute;
@@ -141,6 +143,10 @@ body {
   border-radius: 20px;
   width: 700px;
   margin-top: 40px;
+
+  margin-bottom: 40px;
+
+  margin: auto;
 }
 .combos-puntaje {
   display: flex;

@@ -12,43 +12,10 @@ const contenedorBotonDificil = document.getElementById(
 const modalDificultad = document.querySelector("#modal-dificultades");
 
 const cantidadDeImagenesDiferentes = 6;
-const tamanioImg = 80;
+const tamanioImg = 70;
 
 const gatitosSeleccionados = document.querySelectorAll(".seleccionado");
 let gatitoGuardadoEnClickAnterior = "";
-
-//----------------------------- inicio sin bloques
-const inicioSinBloquesFacil = () => {
-  do {
-    ocultarDificultades();
-    vaciarGrilla();
-    crearGrilla(9, 9);
-    crearGrillaHtml(6);
-    clickeable();
-    tamanioFacil();
-  } while (buscarBloqueInicial(6));
-};
-
-const inicioSinBloquesNormal = () => {
-  do {
-    ocultarDificultades();
-    vaciarGrilla();
-    crearGrilla(8, 8);
-    crearGrillaHtml(8);
-    clickeable();
-  } while (buscarBloqueInicial(8));
-};
-
-const inicioSinBloquesDificil = () => {
-  do {
-    ocultarDificultades();
-    vaciarGrilla();
-    crearGrilla(7, 7);
-    crearGrillaHtml(7);
-    clickeable();
-    tamanioDificil();
-  } while (buscarBloqueInicial(10));
-};
 
 // ------------------ recorrer matches y colorearlos------------
 
@@ -118,40 +85,85 @@ const obtenerDivMatcheado = (arr) => {
   return document.querySelector(`div[data-x='${arr[0]}'][data-y='${arr[1]}']`);
 };
 
-// -------------------------BUSCAR BLOQUE INICIAL------------------
-const buscarBloqueInicial = (maximo) => {
-  maximo = maximo - 1;
-  for (let i = 0; i < listaDeGatitos.length; i++) {
-    for (let j = 0; j < listaDeGatitos[i].length; j++) {
-      //  listaDeGatios[i][j] es la img
-      let celdaActual = listaDeGatitos[i][j].src;
-      // if (listaDeGatitos[i < maximo][j < maximo]) {
-      if (
-        listaDeGatitos[i + 1] &&
-        listaDeGatitos[i + 2] &&
-        listaDeGatitos[i + 1][j] <= listaDeGatitos[maximo][j]
-      ) {
-        let celdaHorizontalMasUno = listaDeGatitos[i][j + 1].src;
-        let celdaHorizontalMasDos = listaDeGatitos[i][j + 2].src;
-        let celdaVerticalMasUno = listaDeGatitos[i + 1][j].src;
-        let celdaVerticalMasDos = listaDeGatitos[i + 2][j].src;
-        if (
-          celdaActual === celdaHorizontalMasUno &&
-          celdaActual === celdaHorizontalMasDos
-        ) {
-          console.log("hay un match horizontal", listaDeGatitos[i][j]);
-        }
-        if (
-          celdaActual === celdaVerticalMasUno &&
-          celdaActual === celdaVerticalMasDos
-        ) {
-          console.log("hay un match vertical", listaDeGatitos[i][j]);
-        }
-      }
-    }
-  }
+// ---------------Obtener bloque de Matches
+
+/**
+ * Devuelve un div en la coordenadas dadas.
+ * @param {array} indices - Posición x y de la celda
+ */
+const obtenerDivMatcheado = (arr) => {
+  return document.querySelector(`div[data-x='${arr[0]}'][data-y='${arr[1]}']`);
 };
 
+const compararHorizontal = (celdaActual, i, j, maximoIndice) => {
+  if (j + 1 <= maximoIndice && j + 2 <= maximoIndice) {
+    // valido límites
+    let celdaHorizontalMasUno = listaDeGatitos[i][j + 1].src;
+    let celdaHorizontalMasDos = listaDeGatitos[i][j + 2].src;
+    if (
+      celdaActual === celdaHorizontalMasUno && // busco tres iguales consecutivos
+      celdaActual === celdaHorizontalMasDos
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  return false; // si me excedí en los límites, no hubo match tampoco
+};
+
+const compararVertical = (celdaActual, i, j, maximoIndice) => {
+  if (i + 1 <= maximoIndice && i + 2 <= maximoIndice) {
+    // valido límites
+
+    let celdaVerticalMasUno = listaDeGatitos[i + 1][j].src;
+    let celdaVerticalMasDos = listaDeGatitos[i + 2][j].src;
+    if (
+      celdaActual === celdaVerticalMasUno && // busco tres iguales consecutivos
+      celdaActual === celdaVerticalMasDos
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  return false; // si me excedí en los límites, no hubo match tampoco
+};
+
+// -------------------------BUSCAR BLOQUE INICIAL------------------
+/**
+ * Devuelve boolean, true cuando hay matches sino devuelve false.
+ *
+ */
+const buscarBloqueInicial = (dimension) => {
+  let maximoIndice = dimension - 1;
+  let comparacionesHorizontales = [];
+  let comparacionesVerticales = [];
+
+  for (let i = 0; i < listaDeGatitos.length; i++) {
+    for (let j = 0; j < listaDeGatitos[i].length; j++) {
+      let celdaActual = listaDeGatitos[i][j].src;
+
+      //me guardo el resultado de la comparación de la fila
+      comparacionesHorizontales.push(
+        compararHorizontal(celdaActual, i, j, maximoIndice)
+      );
+      comparacionesVerticales.push(
+        compararVertical(celdaActual, i, j, maximoIndice)
+      );
+    }
+  }
+
+  //recorre cada item del array "sumatoria de horizontales" para chequear sin al menos uno es true  True
+  let matchesHorizontales = comparacionesHorizontales.some((compH) => {
+    return compH === true;
+  });
+
+  let matchesVerticales = comparacionesVerticales.some((compV) => {
+    return compV === true;
+  });
+  return matchesHorizontales || matchesVerticales;
+};
 // ---------------------------INICIO BUSCARmatch BOTON------
 
 let matchesHorizontales = [];
@@ -215,6 +227,7 @@ const obtenerImgGatito = (i, j) => {
   img.dataset.y = j;
   img.dataset.id = `${i}${j}`;
   img.classList.add("imagen-gatito");
+  // img.style.width = `${tamanioImg}px`;
   return img;
 };
 
@@ -231,6 +244,7 @@ const crearDivGatito = (x, y) => {
   // let img = document.createElement("img");
 
   // img.src = listaDeGatitos[x][y];
+  // divGatito.style.height = `${tamanioImg}px`;
   divGatito.appendChild(listaDeGatitos[x][y]);
   divGatito.style.top = `${x * tamanioImg}px`;
   divGatito.style.left = `${y * tamanioImg}px`;
@@ -250,7 +264,7 @@ const crearGrilla = (ancho, alto) => {
 };
 const crearGrillaHtml = (ancho) => {
   const anchoDeGrilla = tamanioImg * ancho;
-  grilla.style.width = `700px`; //`${anchoDeGrilla}px`; // ancho de celda
+  // grilla.style.width = `700px`; //`${anchoDeGrilla}px`; // ancho de celda
   // grilla.style.margin.bottom = `700px`;
 
   for (let i = 0; i < listaDeGatitos.length; i++) {
@@ -286,7 +300,7 @@ const intercambiarCuadrados = (cuadrado1, cuadrado2) => {
   listaDeGatitos[datax1][datay1] = listaDeGatitos[datax2][datay2];
   listaDeGatitos[datax2][datay2] = variableTemporal;
 
-  console.log(variableTemporal);
+  // console.log(variableTemporal);
   cuadrado1.style.top = `${datax2 * tamanioImg}px`;
   cuadrado2.style.top = `${datax1 * tamanioImg}px`;
   cuadrado1.style.left = `${datay2 * tamanioImg}px`;
@@ -409,21 +423,19 @@ const vaciarGrilla = () => {
 };
 // ------------------Inicio botones Dificultad on Click-------------
 botonFacil.onclick = () => {
-  inicioSinBloquesFacil();
-
   reiniciarJuego.classList.add("facil");
+  inicioSinBloquesFacil();
 };
 
 botonMedio.onclick = () => {
-  inicioSinBloquesNormal();
-
   reiniciarJuego.classList.add("medio");
+  inicioSinBloquesNormal();
 };
 
 botonDificil.onclick = () => {
-  inicioSinBloquesDificil();
-
+  console.log("soy dificil");
   reiniciarJuego.classList.add("dificil");
+  inicioSinBloquesDificil();
 };
 
 reiniciarJuego.onclick = () => {
@@ -498,19 +510,53 @@ const tamanioNormal = () => {
   }
 };
 
-const tamanioFacil = () => {
-  for (let contenedor of contenedoresGatito) {
-    contenedor.classList.add("div-modo-facil");
-  }
-  for (let img of imgsGatito) {
-    img.classList.add("img-modo-facil");
-  }
+// const tamanioFacil = () => {
+//   for (let contenedor of contenedoresGatito) {
+//     contenedor.classList.add("div-modo-facil");
+//   }
+//   for (let img of imgsGatito) {
+//     img.classList.add("img-modo-facil");
+//   }
+// };
+// const tamanioDificil = () => {
+//   for (let contenedor of contenedoresGatito) {
+//     contenedor.classList.add("div-modo-dificil");
+//   }
+//   for (let img of imgsGatito) {
+//     img.classList.add("img-modo-dificil");
+//   }
+// };
+
+// ------------------------
+//----------------------------- inicio sin bloques
+const inicioSinBloquesFacil = () => {
+  do {
+    ocultarDificultades();
+    vaciarGrilla();
+    crearGrilla(9, 9);
+    crearGrillaHtml(9);
+    clickeable();
+    // tamanioFacil();
+  } while (buscarBloqueInicial(9));
 };
-const tamanioDificil = () => {
-  for (let contenedor of contenedoresGatito) {
-    contenedor.classList.add("div-modo-dificil");
-  }
-  for (let img of imgsGatito) {
-    img.classList.add("img-modo-dificil");
-  }
+
+const inicioSinBloquesNormal = () => {
+  do {
+    ocultarDificultades();
+    vaciarGrilla();
+    crearGrilla(8, 8);
+    crearGrillaHtml(8);
+    clickeable();
+  } while (buscarBloqueInicial(8));
+};
+
+const inicioSinBloquesDificil = () => {
+  do {
+    ocultarDificultades();
+    vaciarGrilla();
+    crearGrilla(7, 7);
+    crearGrillaHtml(7);
+    clickeable();
+    // tamanioDificil();
+  } while (buscarBloqueInicial(7));
 };
