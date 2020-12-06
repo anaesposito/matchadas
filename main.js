@@ -58,6 +58,7 @@ const removerImagenDelDiv = (divGatito) => {
  *
  */
 const borrarMatches = () => {
+  console.log(matchesHorizontales);
   for (let i = 0; i < matchesHorizontales.length; i++) {
     // en cada pos tengo [i,j]
     removerImagenDelDiv(obtenerDivMatcheado(matchesHorizontales[i]));
@@ -94,6 +95,10 @@ const compararHorizontal = (celdaActual, i, j, maximoIndice) => {
       celdaActual === celdaHorizontalMasUno && // busco tres iguales consecutivos
       celdaActual === celdaHorizontalMasDos
     ) {
+      matchesHorizontales.push([i, j]);
+      matchesHorizontales.push([i, j + 1]);
+      matchesHorizontales.push([i, j + 2]);
+      // console.log(matchesHorizontales);
       return true;
     } else {
       return false;
@@ -112,6 +117,11 @@ const compararVertical = (celdaActual, i, j, maximoIndice) => {
       celdaActual === celdaVerticalMasUno && // busco tres iguales consecutivos
       celdaActual === celdaVerticalMasDos
     ) {
+      matchesVerticales.push([i, j]);
+      matchesVerticales.push([i + 1, j]);
+      matchesVerticales.push([i + 2, j]);
+
+      // console.log(matchesVerticales);
       return true;
     } else {
       return false;
@@ -119,6 +129,10 @@ const compararVertical = (celdaActual, i, j, maximoIndice) => {
   }
   return false; // si me excedí en los límites, no hubo match tampoco
 };
+// ---------------------------INICIO BUSCARmatch BOTON------
+
+let matchesHorizontales = [];
+let matchesVerticales = [];
 
 // -------------------------BUSCAR BLOQUE INICIAL------------------
 /**
@@ -152,49 +166,10 @@ const buscarBloqueInicial = (dimension) => {
   let matchesVerticales = comparacionesVerticales.some((compV) => {
     return compV === true;
   });
+  // console.log("matches horizontales", matchesHorizontales);
+  // console.log("matches verticales", matchesVerticales);
   return matchesHorizontales || matchesVerticales;
 };
-// ---------------------------INICIO BUSCARmatch BOTON------
-
-let matchesHorizontales = [];
-let matchesVerticales = [];
-
-/**
- * Busca matches entre celda adyacentes,
- * los agrega a los arrays de matches horizontales y verticales en forma de array x y.
- */
-const buscarBloque = () => {
-  for (let i = 0; i < listaDeGatitos.length; i++) {
-    for (let j = 0; j < listaDeGatitos[i].length; j++) {
-      // for (let k = 0; k < listaDeGatitos[i][j].length; k++) {
-      //   console.log(listaDeGatitos[i][j][k]);
-      const celdaActual = listaDeGatitos[i][j];
-      if (
-        listaDeGatitos[i][j + 1] && // valido no irme de ancho.
-        listaDeGatitos[i][j + 2] &&
-        celdaActual === listaDeGatitos[i][j + 1] && // next derecha
-        listaDeGatitos[i][j + 1] === listaDeGatitos[i][j + 2] // next derecha = a su adyacente derecha
-      ) {
-        matchesHorizontales.push([i, j]);
-        matchesHorizontales.push([i, j + 1]);
-        matchesHorizontales.push([i, j + 2]);
-        console.log(matchesHorizontales);
-      }
-      if (
-        listaDeGatitos[i + 1] && //
-        listaDeGatitos[i + 2] && // Valida que exista la fila de abajo y la siguiente
-        celdaActual === listaDeGatitos[i + 1][j] &&
-        celdaActual === listaDeGatitos[i + 2][j]
-      ) {
-        matchesVerticales.push([i, j]);
-        matchesVerticales.push([i + 1, j]);
-        matchesVerticales.push([i + 2, j]);
-      }
-    }
-  }
-  // borrarMatches();
-};
-// };
 
 // ---------------------------Crear  Img Gatito------------
 /**
@@ -425,7 +400,6 @@ botonMedio.onclick = () => {
 };
 
 botonDificil.onclick = () => {
-  console.log("soy dificil");
   reiniciarJuego.classList.add("dificil");
   inicioSinBloquesDificil();
 };
@@ -442,10 +416,14 @@ reiniciarJuego.onclick = () => {
   }
 };
 
-// buscarMatches.onclick = () => {
-//   buscarBloque();
-//   // borrarMatches();
-// };
+buscarMatches.onclick = () => {
+  buscarBloqueEnBoton(9);
+
+  console.log("matchesHorizontales", matchesHorizontales);
+  console.log("matchesVerticales", matchesVerticales);
+
+  borrarMatches();
+};
 
 /**************cuenta regresiva */
 let tiempo = 30;
@@ -485,7 +463,59 @@ AJugar.onclick = () => {
   mostrarDificultades();
 };
 
-// ------------------ remove Gatito
+// ------------------  FUNCIONES PARA BUSCAR MATCH EN BOTON ----
+const compararHorizontalEnBoton = (celdaActual, i, j, maximoIndice) => {
+  if (j + 1 <= maximoIndice && j + 2 <= maximoIndice) {
+    // valido límites
+    let celdaHorizontalMasUno = listaDeGatitos[i][j + 1].src;
+    let celdaHorizontalMasDos = listaDeGatitos[i][j + 2].src;
+    if (
+      celdaActual === celdaHorizontalMasUno && // busco tres iguales consecutivos
+      celdaActual === celdaHorizontalMasDos
+    ) {
+      matchesHorizontales.push([i, j]);
+      matchesHorizontales.push([i, j + 1]);
+      matchesHorizontales.push([i, j + 2]);
+    }
+  }
+};
+
+const compararVerticalEnBoton = (celdaActual, i, j, maximoIndice) => {
+  if (i + 1 <= maximoIndice && i + 2 <= maximoIndice) {
+    // valido límites
+
+    let celdaVerticalMasUno = listaDeGatitos[i + 1][j].src;
+    let celdaVerticalMasDos = listaDeGatitos[i + 2][j].src;
+    if (
+      celdaActual === celdaVerticalMasUno && // busco tres iguales consecutivos
+      celdaActual === celdaVerticalMasDos
+    ) {
+      matchesVerticales.push([i, j]);
+      matchesVerticales.push([i + 1, j]);
+      matchesVerticales.push([i + 2, j]);
+    }
+  }
+};
+
+const buscarBloqueEnBoton = (dimension) => {
+  let maximoIndice = dimension - 1;
+  let comparacionesHorizontales = [];
+  let comparacionesVerticales = [];
+
+  for (let i = 0; i < listaDeGatitos.length; i++) {
+    for (let j = 0; j < listaDeGatitos[i].length; j++) {
+      let celdaActual = listaDeGatitos[i][j].src;
+
+      //me guardo el resultado de la comparación de la fila
+      comparacionesHorizontales.push(
+        compararHorizontalEnBoton(celdaActual, i, j, maximoIndice)
+      );
+      comparacionesVerticales.push(
+        compararVerticalEnBoton(celdaActual, i, j, maximoIndice)
+      );
+    }
+  }
+};
 
 //----------------------------------------------------Tamaño de Divs e Img según dificultad-------------------------
 const imgsGatito = document.querySelectorAll(".imagen-gatito");
