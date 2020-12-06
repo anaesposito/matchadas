@@ -12,7 +12,7 @@ const contenedorBotonDificil = document.getElementById(
 const modalDificultad = document.querySelector("#modal-dificultades");
 
 const cantidadDeImagenesDiferentes = 6;
-const tamanioImg = 70;
+const tamanioImg = 50;
 
 const gatitosSeleccionados = document.querySelectorAll(".seleccionado");
 let gatitoGuardadoEnClickAnterior = "";
@@ -234,7 +234,8 @@ const crearDivGatito = (x, y) => {
   // let img = document.createElement("img");
 
   // img.src = listaDeGatitos[x][y];
-  // divGatito.style.height = `${tamanioImg}px`;
+  divGatito.style.height = `${tamanioImg}px`;
+  divGatito.style.width = `${tamanioImg}px`;
   divGatito.appendChild(listaDeGatitos[x][y]);
   divGatito.style.top = `${x * tamanioImg}px`;
   divGatito.style.left = `${y * tamanioImg}px`;
@@ -254,7 +255,8 @@ const crearGrilla = (ancho, alto) => {
 };
 const crearGrillaHtml = (ancho) => {
   const anchoDeGrilla = tamanioImg * ancho;
-  // grilla.style.width = `700px`; //`${anchoDeGrilla}px`; // ancho de celda
+  grilla.style.width = `480px`; //`${anchoDeGrilla}px`; // ancho de celda
+  grilla.style.height = `480px`;
   // grilla.style.margin.bottom = `700px`;
 
   for (let i = 0; i < listaDeGatitos.length; i++) {

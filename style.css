@@ -15,6 +15,9 @@ body {
   position: relative;
   display: flex;
   align-content: center;
+  /* /* display: inline-block; */
+  max-width: 500px;
+  max-height: 500px;
 }
 
 .contenedor-gatito {
@@ -31,10 +34,13 @@ body {
 .contenedor-grilla {
   padding: 10px;
   border-radius: 20px;
-  width: 700px;
-  height: 700px;
+  max-width: 500px;
+  max-height: 500px;
   margin-top: 40px;
   position: relative;
+  background-color: #d81b60;
+  border: 3px solid white;
+  border-radius: 40px;
 }
 #modal-bienvenida {
   position: absolute;
@@ -88,7 +94,7 @@ body {
 
 /* -------------------- INICIO GATITO CLICKEABLE------------------ */
 .imagen-gatito {
-  width: 80%;
+  width: 90%;
   animation-iteration-count: 1;
 }
 .clickeable {
