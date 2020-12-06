@@ -391,20 +391,24 @@ const vaciarGrilla = () => {
 // ------------------Inicio botones Dificultad on Click-------------
 botonFacil.onclick = () => {
   reiniciarJuego.classList.add("facil");
+  iniciarReloj("clockdiv", deadline);
   inicioSinBloquesFacil();
 };
 
 botonMedio.onclick = () => {
   reiniciarJuego.classList.add("medio");
+  iniciarReloj("clockdiv", deadline);
   inicioSinBloquesNormal();
 };
 
 botonDificil.onclick = () => {
   reiniciarJuego.classList.add("dificil");
+  iniciarReloj("clockdiv", deadline);
   inicioSinBloquesDificil();
 };
 
 reiniciarJuego.onclick = () => {
+  iniciarReloj("clockdiv", deadline);
   clickeable();
   vaciarGrilla();
   if (reiniciarJuego.classList.contains("facil")) {
@@ -424,19 +428,44 @@ buscarMatches.onclick = () => {
 
   borrarMatches();
 };
-
-/**************cuenta regresiva */
-let tiempo = 30;
-const tiempoHtml = document.getElementById("tiempo");
-// console.log(tiempoHtml);
-const cuentaRegresiva = () => {
-  tiempoHtml.innerHTML = `0:${tiempo}`;
-  if (tiempo <= 0) {
-  } else {
-    tiempo -= 1;
-    setTimeout("cuentaRegresiva()", 1000);
-  }
+// ----------------------- TIMER EN MARCHA
+const modalJuegoTerminado = document.querySelector(".modal-juegoTerminado");
+const mostrarJuegoTerminado = () => {
+  modalJuegoTerminado.classList.toggle("is-active");
 };
+
+const tiempoRestante = (tiempo) => {
+  const total = Date.parse(tiempo) - Date.parse(new Date());
+  const segundos = Math.floor((total / 1000) % 60);
+
+  return {
+    total,
+
+    segundos,
+  };
+};
+
+const iniciarReloj = (id, tiempo) => {
+  const reloj = document.getElementById("tiempo");
+
+  const segundosSpan = reloj.querySelector("#segundos");
+
+  const actualizarReloj = () => {
+    const t = tiempoRestante(tiempo);
+
+    segundosSpan.innerHTML = ("0" + t.segundos).slice(-2);
+
+    if (t.total <= 0) {
+      clearInterval(intervalo);
+      mostrarJuegoTerminado();
+    }
+  };
+
+  actualizarReloj();
+  const intervalo = setInterval(actualizarReloj, 1000);
+};
+
+const deadline = new Date(Date.parse(new Date()) + 30 * 1000);
 
 // ------------------------------------INICIO MODALES
 const modalBienvenida = document.querySelector("#contenedor-modal-bienvenida");
@@ -558,7 +587,6 @@ const inicioSinBloquesFacil = () => {
     crearGrilla(9, 9);
     crearGrillaHtml(9);
     clickeable();
-    // tamanioFacil();
   } while (buscarBloqueInicial(9));
 };
 
@@ -579,6 +607,5 @@ const inicioSinBloquesDificil = () => {
     crearGrilla(7, 7);
     crearGrillaHtml(7);
     clickeable();
-    // tamanioDificil();
   } while (buscarBloqueInicial(7));
 };

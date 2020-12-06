@@ -79,7 +79,7 @@
 
                 </section>
                 <footer class="modal-card-foot">
-                    <button id="boton-jugar" class="button is-primary">A Jugar</button>
+                    <button id="boton-jugar" class="button is-danger">A Jugar</button>
                 </footer>
             </div>
         </div>
@@ -98,16 +98,34 @@
                 </section>
                 <footer class="modal-card-foot is-justify-content-center">
                     <div id="contenedor-boton-facil"><button id="facil"
-                            class="boton-dificultad button is-primary ml-4">Fácil</button></div>
+                            class="boton-dificultad button is-danger ml-4">Fácil</button></div>
                     <div id="contenedor-boton-medio is-danger"> <button id="medio"
-                            class="boton-dificultad button is-primary ml-4">Medio</button></div>
+                            class="boton-dificultad button is-danger ml-4">Medio</button></div>
                     <div id="contenedor-boton-dicil"><button id="dificil"
-                            class="boton-dificultad button is-primary ml-4">Difícil</button></div>
+                            class="boton-dificultad button is-danger ml-4">Difícil</button></div>
                 </footer>
             </div>
         </div>
     </div>
 
+
+    <!-- -----------------------------Inicio Modal Juego terminado -->
+    <div class="modal-juegoTerminado modal is-danger">
+        <div class="modal-background"></div>
+        <div id="modal-tarjeta " class="modal-card">
+            <header class="modal-card-head">
+                <h1 class="modal-card-title">¡Juego terminado!</h1>
+                <button class="delete" aria-label="close"></button>
+            </header>
+            <section id="texto-juegoTerminado" class="modal-card-body">
+                <p>Puntaje final: <span>000</span> </p>
+            </section>
+            <footer class="modal-card-foot">
+                <button id="nuevo-juego-partida-terminada" class="button is-danger">Nuevo Juego</button>
+                <button id="reiniciar-juego-partida-terminada" class="button is-danger">Reiniciar</button>
+            </footer>
+        </div>
+    </div>
 
     <!-- FIN MODALES -->
 
@@ -126,7 +144,8 @@
                         class="fas fa-redo"></i></button>
                 <button class="button is-rounded is-light is-danger" id="buscar-matches">Matches</button>
                 <button class="button is-rounded is-light is-danger" id="boton-vacios">Ver vacios</button>
-                <button class="button is-rounded is-light is-danger" id="tiempo">0:00</button>
+                <button class="button is-rounded is-light is-danger" id="tiempo">0:<span
+                        id="segundos">00</span></button>
             </div>
         </div>
 
