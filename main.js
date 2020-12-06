@@ -250,7 +250,9 @@ const crearGrilla = (ancho, alto) => {
 };
 const crearGrillaHtml = (ancho) => {
   const anchoDeGrilla = tamanioImg * ancho;
-  grilla.style.width = `${anchoDeGrilla}px`; // ancho de celda
+  grilla.style.width = `700px`; //`${anchoDeGrilla}px`; // ancho de celda
+  // grilla.style.margin.bottom = `700px`;
+
   for (let i = 0; i < listaDeGatitos.length; i++) {
     for (let j = 0; j < listaDeGatitos[i].length; j++) {
       grilla.appendChild(crearDivGatito(i, j));

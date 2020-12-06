@@ -24,9 +24,15 @@ body {
   /* display: flex;
   justify-content: center;
   align-items: center; */
-
   position: absolute;
   background-color: #ff5cb849;
+}
+
+.contenedor-grilla {
+  padding: 10px;
+  border-radius: 20px;
+  width: 700px;
+  margin-top: 40px;
 }
 #modal-bienvenida {
   position: absolute;
@@ -74,7 +80,8 @@ body {
 /* -------------------------------- FIN MODALES */
 
 .seleccionado {
-  border: solid 4px black;
+  border: solid 2px white;
+  border-radius: 14px;
 }
 
 /* -------------------- INICIO GATITO CLICKEABLE------------------ */
@@ -116,6 +123,8 @@ body {
   text-shadow: 1px 1px #fafafa, 1px -1px #fafafa, -1px -1px #fafafa,
     -1px 1px #fafafa;
   text-align: center;
+  margin-top: 40px;
+  margin-bottom: 20px;
 }
 
 .seccion-juego {
@@ -124,7 +133,8 @@ body {
   align-content: center;
 }
 
-.contenedor-combos-puntaje {
+.contenedor-combos-puntaje,
+.seccion-timer {
   background-color: #d81b60;
   border: 3px solid white;
   padding: 10px;
