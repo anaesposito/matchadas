@@ -85,16 +85,6 @@ const obtenerDivMatcheado = (arr) => {
   return document.querySelector(`div[data-x='${arr[0]}'][data-y='${arr[1]}']`);
 };
 
-// ---------------Obtener bloque de Matches
-
-/**
- * Devuelve un div en la coordenadas dadas.
- * @param {array} indices - Posición x y de la celda
- */
-const obtenerDivMatcheado = (arr) => {
-  return document.querySelector(`div[data-x='${arr[0]}'][data-y='${arr[1]}']`);
-};
-
 const compararHorizontal = (celdaActual, i, j, maximoIndice) => {
   if (j + 1 <= maximoIndice && j + 2 <= maximoIndice) {
     // valido límites
