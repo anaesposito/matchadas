@@ -408,7 +408,6 @@ botonDificil.onclick = () => {
 };
 
 reiniciarJuego.onclick = () => {
-  iniciarReloj("clockdiv", deadline);
   clickeable();
   vaciarGrilla();
   if (reiniciarJuego.classList.contains("facil")) {
@@ -445,7 +444,7 @@ const tiempoRestante = (tiempo) => {
   };
 };
 
-const iniciarReloj = (id, tiempo) => {
+const iniciarReloj = (tiempo) => {
   const reloj = document.getElementById("tiempo");
 
   const segundosSpan = reloj.querySelector("#segundos");
@@ -545,38 +544,6 @@ const buscarBloqueEnBoton = (dimension) => {
     }
   }
 };
-
-//----------------------------------------------------Tamaño de Divs e Img según dificultad-------------------------
-const imgsGatito = document.querySelectorAll(".imagen-gatito");
-const contenedoresGatito = document.querySelectorAll(".contenedor-gatito");
-
-const tamanioNormal = () => {
-  // console.log(imgsGatito);
-  for (let contenedor of contenedoresGatito) {
-    console.log(contenedor);
-    contenedor.classList.add("div-modo-normal");
-  }
-  for (let img of imgsGatito) {
-    img.classList.add("img-modo-normal");
-  }
-};
-
-// const tamanioFacil = () => {
-//   for (let contenedor of contenedoresGatito) {
-//     contenedor.classList.add("div-modo-facil");
-//   }
-//   for (let img of imgsGatito) {
-//     img.classList.add("img-modo-facil");
-//   }
-// };
-// const tamanioDificil = () => {
-//   for (let contenedor of contenedoresGatito) {
-//     contenedor.classList.add("div-modo-dificil");
-//   }
-//   for (let img of imgsGatito) {
-//     img.classList.add("img-modo-dificil");
-//   }
-// };
 
 // ------------------------
 //----------------------------- inicio sin bloques
