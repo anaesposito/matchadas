@@ -18,6 +18,47 @@ const gatitosSeleccionados = document.querySelectorAll(".seleccionado");
 let gatitoGuardadoEnClickAnterior = "";
 
 // ------------------ recorrer matches y colorearlos------------
+// ----------------------- TIMER EN MARCHA
+const modalJuegoTerminado = document.querySelector(".modal-juegoTerminado");
+const mostrarJuegoTerminado = () => {
+  modalJuegoTerminado.classList.toggle("is-active");
+};
+
+const tiempoRestante = (tiempo) => {
+  const total = Date.parse(tiempo) - Date.parse(new Date());
+  const segundos = Math.floor((total / 1000) % 60);
+
+  return {
+    total,
+
+    segundos,
+  };
+};
+
+const iniciarReloj = (tiempo) => {
+  const reloj = document.getElementById("tiempo");
+
+  const segundosSpan = reloj.querySelector("#segundos");
+
+  const actualizarReloj = () => {
+    const t = tiempoRestante(tiempo);
+
+    segundosSpan.innerHTML = ("0" + t.segundos).slice(-2);
+    console.log(t.segundos);
+
+    if (t.total <= 0) {
+      clearInterval(intervalo);
+      mostrarJuegoTerminado();
+    }
+  };
+
+  actualizarReloj();
+  const intervalo = setInterval(actualizarReloj, 1000);
+};
+
+const deadline = new Date(Date.parse(new Date()) + 30 * 1000);
+
+// ---------------------------------------fin de timer
 
 let listaDivsVacios = [];
 const recorrerDivVacios = () => {
@@ -391,19 +432,19 @@ const vaciarGrilla = () => {
 // ------------------Inicio botones Dificultad on Click-------------
 botonFacil.onclick = () => {
   reiniciarJuego.classList.add("facil");
-  iniciarReloj("clockdiv", deadline);
+  iniciarReloj(deadline);
   inicioSinBloquesFacil();
 };
 
 botonMedio.onclick = () => {
   reiniciarJuego.classList.add("medio");
-  iniciarReloj("clockdiv", deadline);
+  iniciarReloj(deadline);
   inicioSinBloquesNormal();
 };
 
 botonDificil.onclick = () => {
   reiniciarJuego.classList.add("dificil");
-  iniciarReloj("clockdiv", deadline);
+  iniciarReloj(deadline);
   inicioSinBloquesDificil();
 };
 
@@ -427,44 +468,6 @@ buscarMatches.onclick = () => {
 
   borrarMatches();
 };
-// ----------------------- TIMER EN MARCHA
-const modalJuegoTerminado = document.querySelector(".modal-juegoTerminado");
-const mostrarJuegoTerminado = () => {
-  modalJuegoTerminado.classList.toggle("is-active");
-};
-
-const tiempoRestante = (tiempo) => {
-  const total = Date.parse(tiempo) - Date.parse(new Date());
-  const segundos = Math.floor((total / 1000) % 60);
-
-  return {
-    total,
-
-    segundos,
-  };
-};
-
-const iniciarReloj = (tiempo) => {
-  const reloj = document.getElementById("tiempo");
-
-  const segundosSpan = reloj.querySelector("#segundos");
-
-  const actualizarReloj = () => {
-    const t = tiempoRestante(tiempo);
-
-    segundosSpan.innerHTML = ("0" + t.segundos).slice(-2);
-
-    if (t.total <= 0) {
-      clearInterval(intervalo);
-      mostrarJuegoTerminado();
-    }
-  };
-
-  actualizarReloj();
-  const intervalo = setInterval(actualizarReloj, 1000);
-};
-
-const deadline = new Date(Date.parse(new Date()) + 30 * 1000);
 
 // ------------------------------------INICIO MODALES
 const modalBienvenida = document.querySelector("#contenedor-modal-bienvenida");
