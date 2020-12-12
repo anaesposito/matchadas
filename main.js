@@ -9,6 +9,8 @@ const contenedorBotonMedio = document.getElementById("contenedor-boton-medio");
 const contenedorBotonDificil = document.getElementById(
   "contenedor-boton-dificil"
 );
+const cerrarJuegoTerminado = document.querySelector("#cerrar-juego-terminado");
+
 const modalDificultad = document.querySelector("#modal-dificultades");
 
 const cantidadDeImagenesDiferentes = 6;
@@ -94,39 +96,6 @@ const removerImagenDelDiv = (divGatito) => {
   }
 };
 
-/**
- * Después de encontrar los bloques, sacoa la img de los divs matcheados. REVISAR
- *
- */
-const borrarMatches = () => {
-  console.log(matchesHorizontales);
-  for (let i = 0; i < matchesHorizontales.length; i++) {
-    // en cada pos tengo [i,j]
-    removerImagenDelDiv(obtenerDivMatcheado(matchesHorizontales[i]));
-  }
-  for (let i = 0; i < matchesVerticales.length; i++) {
-    removerImagenDelDiv(obtenerDivMatcheado(matchesVerticales[i]));
-  }
-  if (!matchesHorizontales.length && !matchesVerticales.length) {
-    alert("No hay matches :(");
-  }
-  matchesHorizontales = [];
-  matchesVerticales = [];
-};
-const botonProbandoVacios = document.querySelector("#boton-vacios");
-botonProbandoVacios.onclick = () => {
-  recorrerDivVacios();
-};
-// ---------------Obtener bloque de Matches
-
-/**
- * Devuelve un div en la coordenadas dadas.
- * @param {array} indices - Posición x y de la celda
- */
-const obtenerDivMatcheado = (arr) => {
-  return document.querySelector(`div[data-x='${arr[0]}'][data-y='${arr[1]}']`);
-};
-
 const compararHorizontal = (celdaActual, i, j, maximoIndice) => {
   if (j + 1 <= maximoIndice && j + 2 <= maximoIndice) {
     // valido límites
@@ -200,12 +169,12 @@ const buscarBloqueInicial = (dimension) => {
   }
 
   //recorre cada item del array "sumatoria de horizontales" para chequear sin al menos uno es true  True
-  let matchesHorizontales = comparacionesHorizontales.some((compH) => {
-    return compH === true;
+  let matchesHorizontales = comparacionesHorizontales.some((horizontal) => {
+    return horizontal === true;
   });
-
-  let matchesVerticales = comparacionesVerticales.some((compV) => {
-    return compV === true;
+  // el parametro es cada item del array, si alguno da true, todo da true
+  let matchesVerticales = comparacionesVerticales.some((vertical) => {
+    return vertical === true;
   });
   // console.log("matches horizontales", matchesHorizontales);
   // console.log("matches verticales", matchesVerticales);
@@ -469,6 +438,10 @@ buscarMatches.onclick = () => {
   borrarMatches();
 };
 
+cerrarJuegoTerminado.onclick = () => {
+  modalJuegoTerminado.classList.remove("is-active");
+};
+
 // ------------------------------------INICIO MODALES
 const modalBienvenida = document.querySelector("#contenedor-modal-bienvenida");
 const AJugar = document.getElementById("boton-jugar");
@@ -547,7 +520,38 @@ const buscarBloqueEnBoton = (dimension) => {
     }
   }
 };
+/**
+ * Después de encontrar los bloques, sacoa la img de los divs matcheados. REVISAR
+ *
+ */
+const borrarMatches = () => {
+  console.log(matchesHorizontales);
+  for (let i = 0; i < matchesHorizontales.length; i++) {
+    // en cada pos tengo [i,j]
+    removerImagenDelDiv(obtenerDivMatcheado(matchesHorizontales[i]));
+  }
+  for (let i = 0; i < matchesVerticales.length; i++) {
+    removerImagenDelDiv(obtenerDivMatcheado(matchesVerticales[i]));
+  }
+  if (!matchesHorizontales.length && !matchesVerticales.length) {
+    alert("No hay matches :(");
+  }
+  matchesHorizontales = [];
+  matchesVerticales = [];
+};
+const botonProbandoVacios = document.querySelector("#boton-vacios");
+botonProbandoVacios.onclick = () => {
+  recorrerDivVacios();
+};
+// ---------------Obtener bloque de Matches
 
+/**
+ * Devuelve un div en la coordenadas dadas.
+ * @param {array} indices - Posición x y de la celda
+ */
+const obtenerDivMatcheado = (arr) => {
+  return document.querySelector(`div[data-x='${arr[0]}'][data-y='${arr[1]}']`);
+};
 // ------------------------
 //----------------------------- inicio sin bloques
 const inicioSinBloquesFacil = () => {
